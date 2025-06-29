@@ -79,12 +79,6 @@
   <!-- Main Content -->
   <main>
     <h1>Kyoga TV </h1>
-<iframe width="100%" height="500"
-  src="https://www.youtube.com/embed/PTCrQj4KXhA"
-  frameborder="0"
-  allow="autoplay; encrypted-media"
-  allowfullscreen>
-</iframe>
 
     <iframe 
       src="https://www.youtube.com/embed/PTCrQj4KXhA" 
