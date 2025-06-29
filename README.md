@@ -95,7 +95,22 @@
     <div>
       <h3>Kyoga TV Launches New Program</h3>
       <p>We're excited to introduce our brand-new community segment focusing on youth innovation and local talent. Tune in every Friday at 7PM!</p>
-    </div>
+    </div><!-- Blog Post -->
+<div style="display: flex; gap: 20px; margin-bottom: 40px;">
+  <img src="blog1.jpg" alt="Blog Image" style="width: 200px;">
+  <div>
+    <h3>New Program Launch</h3>
+    <p>Kyoga TV is excited to launch a new youth-focused program every Friday at 7PM.</p>
+
+    <!-- Share Links -->
+    <p>Share this: 
+      <a href="https://wa.me/?text=Check%20out%20this%20news%20on%20Kyoga%20TV:%20https://kyogatv.github.io/kyoga-tv/" target="_blank">WhatsApp</a> | 
+      <a href="https://www.facebook.com/sharer/sharer.php?u=https://kyogatv.github.io/kyoga-tv/" target="_blank">Facebook</a> | 
+      <a href="https://twitter.com/intent/tweet?text=Check%20this%20news%20from%20Kyoga%20TV&url=https://kyogatv.github.io/kyoga-tv/" target="_blank">Twitter</a>
+    </p>
+  </div>
+</div>
+
   </div>
 
   <!-- Blog Post 2 -->
