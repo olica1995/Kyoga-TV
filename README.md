@@ -79,6 +79,12 @@
   <!-- Main Content -->
   <main>
     <h1>Kyoga TV </h1>
+<iframe width="100%" height="500"
+  src="https://www.youtube.com/embed/PTCrQj4KXhA"
+  frameborder="0"
+  allow="autoplay; encrypted-media"
+  allowfullscreen>
+</iframe>
 
     <iframe 
       src="https://www.youtube.com/embed/PTCrQj4KXhA" 
@@ -91,11 +97,7 @@
 
   <!-- Blog Post 1 -->
   <div style="display: flex; gap: 20px; margin-bottom: 40px; align-items: flex-start;">
-    <img src="KYOGA TV.jpg" alt="Blog Image 1" style="width: 200px; height: auto; border-radius: 8px;">
-    <div>
-      <h3>Kyoga TV Launches New Program</h3>
-      <p>We're excited to introduce our brand-new community segment focusing on youth innovation and local talent. Tune in every Friday at 7PM!</p>
-    </div><!-- Blog Post -->
+    <img src="KYOGA TV.jpg" alt="Blog Image 1" style="width: 200px; height: auto; border-radius: 8px;"><!-- Blog Post -->
 <div style="display: flex; gap: 20px; margin-bottom: 40px;">
   <img src="blog1.jpg" alt="Blog Image" style="width: 200px;">
   <div>
@@ -111,6 +113,10 @@
   </div>
 </div>
 
+    <div>
+      <h3>Kyoga TV Launches New Program</h3>
+      <p>We're excited to introduce our brand-new community segment focusing on youth innovation and local talent. Tune in every Friday at 7PM!</p>
+    </div>
   </div>
 
   <!-- Blog Post 2 -->
@@ -163,4 +169,3 @@
 
 </body>
 </html>
-
