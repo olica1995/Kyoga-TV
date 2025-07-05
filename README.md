@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Kyoga TV Live</title>
   <style>
     * {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #f0f0f0;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f8f8f8;
+      color: #333;
+      line-height: 1.6;
     }
 
     header {
@@ -24,6 +25,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-wrap: wrap;
     }
 
     header img {
@@ -34,20 +36,113 @@
       font-size: 14px;
     }
 
-    main {
-      flex: 1;
+    .nav {
       display: flex;
-      flex-direction: column;
+      justify-content: space-between;
       align-items: center;
-      padding: 30px 10px;
+      background-color: #0edd98;
+      padding: 10px 20px;
+      flex-wrap: wrap;
+    }
+
+    .logo h2 a {
+      color: #f0ac45;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .nav ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .nav ul li {
+      margin: 0 10px;
+    }
+
+    .nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-size: 15px;
+      transition: color 0.3s ease;
+    }
+
+    .nav ul li a:hover {
+      color: #e5f045;
+    }
+
+    main {
+      padding: 40px 20px;
       text-align: center;
     }
 
-    iframe {
-      width: 80%;
+    .news-ticker {
+      width: 100%;
+      background-color: #003366;
+      color: white;
+      overflow: hidden;
+      white-space: nowrap;
+      padding: 10px 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      margin-bottom: 20px;
+      font-size: 16px;
+      font-weight: bold;
+      position: relative;
+    }
+
+    .ticker-content {
+      display: inline-block;
+      padding-left: 100%;
+      animation: ticker 20s linear infinite;
+    }
+
+    @keyframes ticker {
+      0% {
+        transform: translateX(0%);
+      }
+      100% {
+        transform: translateX(-100%);
+      }
+    }
+
+    main iframe {
+      width: 100%;
       max-width: 800px;
       height: 450px;
+      border-radius: 8px;
       border: none;
+    }
+
+    section#blog {
+      margin: 50px auto;
+      width: 90%;
+      max-width: 1000px;
+    }
+
+    #blog h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .blog-post {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+      background: white;
+      border-radius: 8px;
+      padding: 15px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+
+    .blog-post img {
+      width: 200px;
+      border-radius: 8px;
+    }
+
+    .blog-post div {
+      flex: 1;
     }
 
     footer {
@@ -59,107 +154,185 @@
 
     .social-links a {
       color: white;
-      margin: 0 10px;
+      margin: 0 8px;
       text-decoration: none;
     }
 
     .social-links a:hover {
       text-decoration: underline;
     }
+
+    a {
+      color: #c8ff00;
+    }
+
+    @media (max-width: 768px) {
+      .nav ul {
+        flex-direction: column;
+        width: 100%;
+        text-align: center;
+        margin-top: 10px;
+      }
+
+      .blog-post {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .blog-post img {
+        width: 100%;
+        max-width: 100%;
+      }
+
+      main iframe {
+        height: 250px;
+      }
+    }
   </style>
 </head>
 <body>
 
-  <!-- Header -->
   <header>
-    <img src="KYOGA TV.jpg" alt="Kyoga TV Logo">
+    <img src="KYOGA TV.jpg" alt="Kyoga TV Logo" />
     <div class="datetime" id="datetime">Loading date & time...</div>
   </header>
 
-  <!-- Main Content -->
-  <main>
-    <h1>Kyoga TV </h1>
-
-    <iframe 
-      src="https://www.youtube.com/embed/PTCrQj4KXhA" 
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-      allowfullscreen>
-    </iframe>
-  </main><!-- Blog Section -->
-<section id="blog" style="margin-top: 50px; width: 90%; max-width: 1000px;">
-  <h2>Latest News & Updates</h2>
-
-  <!-- Blog Post 1 -->
-  <div style="display: flex; gap: 20px; margin-bottom: 40px; align-items: flex-start;">
-    <img src="KYOGA TV.jpg" alt="Blog Image 1" style="width: 200px; height: auto; border-radius: 8px;"><!-- Blog Post -->
-<div style="display: flex; gap: 20px; margin-bottom: 40px;">
-  <img src="blog1.jpg" alt="Blog Image" style="width: 200px;">
-  <div>
-    <h3>New Program Launch</h3>
-    <p>Kyoga TV is excited to launch a new youth-focused program every Friday at 7PM.</p>
-
-    <!-- Share Links -->
-    <p>Share this: 
-      <a href="https://wa.me/?text=Check%20out%20this%20news%20on%20Kyoga%20TV:%20https://kyogatv.github.io/kyoga-tv/" target="_blank">WhatsApp</a> | 
-      <a href="https://www.facebook.com/sharer/sharer.php?u=https://kyogatv.github.io/kyoga-tv/" target="_blank">Facebook</a> | 
-      <a href="https://twitter.com/intent/tweet?text=Check%20this%20news%20from%20Kyoga%20TV&url=https://kyogatv.github.io/kyoga-tv/" target="_blank">Twitter</a>
-    </p>
-  </div>
+  <nav class="nav">
+    <div class="logo">
+      <h2><a href="#">Kyoga TV</a></h2>
+    </div>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Our Team</a></li>
+      <li><a href="#">Our Contacts</a></li>
+    </ul>
+  </nav>
+<div style="text-align: center; max-width: 400px; margin: auto; font-family: Arial, sans-serif;">
+  <h2>🎧 Olix Radio – Listen Live</h2>
+  <img src="https://KYOGA TV.jpg" alt="Olix Radio Logo" style="width: 100%; max-width: 300px; border-radius: 10px; margin-bottom: 15px;">
+  <audio controls style="width: 100%;">
+    <source src="https://stream.zeno.fm/4mb1wxhrefhvv" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
 </div>
 
-    <div>
-      <h3>Kyoga TV Launches New Program</h3>
-      <p>We're excited to introduce our brand-new community segment focusing on youth innovation and local talent. Tune in every Friday at 7PM!</p>
+  <audio controls>
+  <source src="best.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+  
+</audio>
+<p>Audio Plays: <span id="audioPlays">0</span></p>
+<p>Audio Downloads: <span id="audioDownloads">0</span></p>
+
+<script>
+  const audio = document.querySelector('audio');
+  const audioPlays = document.getElementById('audioPlays');
+  const audioDownloads = document.getElementById('audioDownloads');
+
+  let plays = localStorage.getItem('audioPlays') || 0;
+  let downloads = localStorage.getItem('audioDownloads') || 0;
+
+  audioPlays.innerText = plays;
+  audioDownloads.innerText = downloads;
+
+  audio.addEventListener('play', () => {
+    plays++;
+    localStorage.setItem('audioPlays', plays);
+    audioPlays.innerText = plays;
+  });
+
+  document.querySelector('a[href="best.mp3"]').addEventListener('click', () => {
+    downloads++;
+    localStorage.setItem('audioDownloads', downloads);
+    audioDownloads.innerText = downloads;
+  });
+</script>
+
+
+
+<main>
+  <h1>Kyoga TV Live</h1>
+
+  <!-- News Ticker -->
+  <div class="news-ticker">
+    <div class="ticker-content">
+      🚨 New Show: Youth Talk Fridays 7PM | 🎤 Felix Olica: Northern Music Rising | 🎥 Behind The Scenes at Kyoga TV | 📢 Tune in Live on YouTube, Facebook & TikTok!
     </div>
   </div>
 
-  <!-- Blog Post 2 -->
-  <div style="display: flex; gap: 20px; margin-bottom: 40px; align-items: flex-start;">
-    <img src="poster.jpg" alt="Blog Image 2" style="width: 200px; height: auto; border-radius: 8px;">
-    <div>
-      <h3>Inside Kyoga: Behind the Scenes</h3>
-      <p>Ever wondered what goes on behind the scenes at Kyoga TV? Take a peek into the studio and meet the crew making it all happen.</p>
+  <!-- YouTube Live Embed -->
+<iframe width="560" height="315" src="https://www.youtube.com/embed/2QrzgMBYIgI?si=6R-M3gHifN1rFEth" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+</main>
+
+  
+
+  <section id="blog">
+    <h2>Latest News & Updates</h2>
+    
+
+    <div class="blog-post">
+      <img src="KYOGA TV.jpg" alt="Blog Image 1">
+      <div>
+        <h3>New Program Launch</h3>
+        <p>Kyoga TV is excited to launch a new youth-focused program every Friday at 7PM.</p>
+        <p>Share this:
+          <a href="https://wa.me/?text=Check%20out%20this%20news%20on%20Kyoga%20TV:%20https://kyogatv.github.io/kyoga-tv/" target="_blank">WhatsApp</a> |
+          <a href="https://www.facebook.com/sharer/sharer.php?u=https://kyogatv.github.io/kyoga-tv/" target="_blank">Facebook</a> |
+          <a href="https://twitter.com/intent/tweet?text=Check%20this%20news%20from%20Kyoga%20TV&url=https://kyogatv.github.io/kyoga-tv/" target="_blank">Twitter</a>
+        </p>
+      </div>
     </div>
-  </div>
-</section>
 
+    <div class="blog-post">
+      <img src="IMG_20250701_131415_535.jpg" alt="Blog Image 2">
+      <div>
+        <h3>Felix Olica to Uplift Northern Music</h3>
+        <p>Felix Olica, CEO of Kyoga TV, vows to boost the northern Ugandan music industry by offering airplay, organizing music festivals, and changing public perception. “We are making quality music, yet remain underrated,” says Olica. Kyoga TV broadcasts on YouTube, Facebook, TikTok, and X.</p>
+      </div>
+    </div>
 
-  <!-- Footer -->
+    <div class="blog-post">
+      <img src="poster.jpg" alt="Blog Image 3">
+      <div>
+        <h3>Inside Kyoga: Behind the Scenes</h3>
+        <p>Ever wondered what goes on behind the scenes at Kyoga TV? Take a peek into the studio and meet the crew making it all happen.</p>
+      </div>
+    </div>
+  </section>
+
   <footer>
     <div class="social-links">
       <a href="https://www.facebook.com/kyogatv" target="_blank">Facebook</a> |
-      <a href="https://x.com/kyogatv" target="_blank">X Twitter</a> |
-      <a href="https://www.tiktok.com/@kyogatv?" target="_blank">TikTok</a><p>
-  <a href="mailto:info@kyogatv.com" style="color:white;">info@kyogatv.com</a> |
-  <a href="https://wa.me/256789223294" target="_blank" style="color:white;">WhatsApp</a> |
-  <a href="https://www.youtube.com/@kyogatv" target="_blank" style="color:white;">YouTube Channel</a>
-</p>
-
+      <a href="https://x.com/kyogatv" target="_blank">X (Twitter)</a> |
+      <a href="https://www.tiktok.com/@kyogatv" target="_blank">TikTok</a> |
+      <a href="https://www.youtube.com/@kyogatv" target="_blank">YouTube</a>
     </div>
-    <p>Contact us: <a href="olicafelix95@gmail.com" style="color:white;">info@kyogatv.com</a> | +256789223294</p>
+    <p><a href="mailto:info@kyogatv.com" style="color:white;">info@kyogatv.com</a> | <a href="https://wa.me/256789223294" target="_blank" style="color:white;">WhatsApp: +256789223294</a></p>
     <p>&copy; 2025 Kyoga TV. All rights reserved.</p>
   </footer>
 
-  <!-- JavaScript for Date and Time -->
   <script>
-    function updateDateTime() {
-      const now = new Date();
-      const options = {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-      };
-      document.getElementById('datetime').innerText = now.toLocaleString('en-GB', options);
-    }
+  function updateDateTime() {
+    const now = new Date();
+    const options = {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: true
+    };
+    const dateTimeString = now.toLocaleString('en-US', options);
+    document.getElementById('datetime').textContent = dateTimeString;
+  }
 
-    // Update every second
-    setInterval(updateDateTime, 1000);
-    updateDateTime();
-  </script>
-
+  // Update immediately and then every second
+  updateDateTime();
+  setInterval(updateDateTime, 1000);
+</script>
 </body>
 </html>
