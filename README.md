@@ -2,8 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Kyoga TV Live</title>
+
+  <!-- Google Fonts: Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+
   <style>
     * {
       box-sizing: border-box;
@@ -36,42 +40,62 @@
       font-size: 14px;
     }
 
-    .nav {
+    /* Navigation Bar */
+    nav.nav {
+      background-color: #5a2a83; /* deep purple */
+      padding: 10px 20px;
+      font-family: 'Poppins', sans-serif;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background-color: #0edd98;
-      padding: 10px 20px;
       flex-wrap: wrap;
     }
 
     .logo h2 a {
       color: #f0ac45;
       text-decoration: none;
-      font-weight: bold;
+      font-weight: 700;
+      font-size: 24px;
+      font-family: 'Poppins', sans-serif;
     }
 
-    .nav ul {
+    ul.nav-links {
       list-style: none;
       display: flex;
       flex-wrap: wrap;
     }
 
-    .nav ul li {
+    ul.nav-links li {
       margin: 0 10px;
     }
 
-    .nav ul li a {
-      color: white;
+    ul.nav-links li a {
+      color: #f3e8ff; /* light lavender */
+      font-weight: 600;
+      font-size: 16px;
+      padding: 8px 12px;
       text-decoration: none;
-      font-size: 15px;
-      transition: color 0.3s ease;
+      border-radius: 4px;
+      transition: background 0.3s ease, color 0.3s ease;
+      display: inline-block;
     }
 
-    .nav ul li a:hover {
-      color: #e5f045;
+    ul.nav-links li a:hover {
+      background-color: #b692e6; /* lighter purple on hover */
+      color: #2c0051; /* dark purple text on hover */
     }
 
+    /* Mobile menu toggle button */
+    #menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 28px;
+      color: #f3e8ff;
+      cursor: pointer;
+    }
+
+    /* Main content */
     main {
       padding: 40px 20px;
       text-align: center;
@@ -150,12 +174,14 @@
       color: white;
       padding: 20px;
       text-align: center;
+      font-family: 'Poppins', sans-serif;
     }
 
     .social-links a {
       color: white;
       margin: 0 8px;
       text-decoration: none;
+      font-weight: 600;
     }
 
     .social-links a:hover {
@@ -166,12 +192,25 @@
       color: #c8ff00;
     }
 
+    /* Responsive styles */
     @media (max-width: 768px) {
-      .nav ul {
+      ul.nav-links {
         flex-direction: column;
         width: 100%;
-        text-align: center;
+        display: none; /* hide by default on mobile */
         margin-top: 10px;
+      }
+
+      ul.nav-links.show {
+        display: flex;
+      }
+
+      ul.nav-links li {
+        margin: 10px 0;
+      }
+
+      main iframe {
+        height: 250px;
       }
 
       .blog-post {
@@ -184,8 +223,9 @@
         max-width: 100%;
       }
 
-      main iframe {
-        height: 250px;
+      /* Show menu toggle button */
+      #menu-toggle {
+        display: block;
       }
     }
   </style>
@@ -201,79 +241,52 @@
     <div class="logo">
       <h2><a href="#">Kyoga TV</a></h2>
     </div>
-    <ul>
+
+    <button id="menu-toggle" aria-label="Toggle navigation menu">&#9776;</button>
+
+    <ul class="nav-links" id="nav-links">
       <li><a href="#">Home</a></li>
       <li><a href="#">About</a></li>
       <li><a href="#">Our Team</a></li>
       <li><a href="#">Our Contacts</a></li>
     </ul>
   </nav>
-<div style="text-align: center; max-width: 400px; margin: auto; font-family: Arial, sans-serif;">
-  <h2>🎧 Olix Radio – Listen Live</h2>
-  <img src="https://KYOGA TV.jpg" alt="Olix Radio Logo" style="width: 100%; max-width: 300px; border-radius: 10px; margin-bottom: 15px;">
-  <audio controls style="width: 100%;">
-    <source src="https://stream.zeno.fm/4mb1wxhrefhvv" type="audio/mpeg">
-    Your browser does not support the audio element.
-  </audio>
-</div>
 
-  <audio controls>
-  <source src="best.mp3" type="audio/mpeg">
-  Your browser does not support the audio element.
-  
-</audio>
-<p>Audio Plays: <span id="audioPlays">0</span></p>
-<p>Audio Downloads: <span id="audioDownloads">0</span></p>
-
-<script>
-  const audio = document.querySelector('audio');
-  const audioPlays = document.getElementById('audioPlays');
-  const audioDownloads = document.getElementById('audioDownloads');
-
-  let plays = localStorage.getItem('audioPlays') || 0;
-  let downloads = localStorage.getItem('audioDownloads') || 0;
-
-  audioPlays.innerText = plays;
-  audioDownloads.innerText = downloads;
-
-  audio.addEventListener('play', () => {
-    plays++;
-    localStorage.setItem('audioPlays', plays);
-    audioPlays.innerText = plays;
-  });
-
-  document.querySelector('a[href="best.mp3"]').addEventListener('click', () => {
-    downloads++;
-    localStorage.setItem('audioDownloads', downloads);
-    audioDownloads.innerText = downloads;
-  });
-</script>
-
-
-
-<main>
-  <h1>Kyoga TV Live</h1>
-
-  <!-- News Ticker -->
-  <div class="news-ticker">
-    <div class="ticker-content">
-      🚨 New Show: Youth Talk Fridays 7PM | 🎤 Felix Olica: Northern Music Rising | 🎥 Behind The Scenes at Kyoga TV | 📢 Tune in Live on YouTube, Facebook & TikTok!
-    </div>
+  <div style="text-align: center; max-width: 400px; margin: auto; font-family: Arial, sans-serif;">
+    <h2>🎧 Olix Radio – Listen Live</h2>
+    <img src="https://KYOGA TV.jpg" alt="Olix Radio Logo" style="width: 100%; max-width: 300px; border-radius: 10px; margin-bottom: 15px;">
+    <audio controls style="width: 100%;">
+      <source src="https://stream.zeno.fm/4mb1wxhrefhvv" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
   </div>
 
-  <!-- YouTube Live Embed -->
-<iframe width="560" height="315" src="https://www.youtube.com/embed/2QrzgMBYIgI?si=6R-M3gHifN1rFEth" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+  <audio controls>
+    <source src="best.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+  <p>Audio Plays: <span id="audioPlays">0</span></p>
+  <p>Audio Downloads: <span id="audioDownloads">0</span></p>
 
-</main>
+  <main>
+    <h1>Kyoga TV Live</h1>
 
-  
+    <!-- News Ticker -->
+    <div class="news-ticker">
+      <div class="ticker-content">
+        🚨 New Show: Youth Talk Fridays 7PM | 🎤 Felix Olica: Northern Music Rising | 🎥 Behind The Scenes at Kyoga TV | 📢 Tune in Live on YouTube, Facebook & TikTok!
+      </div>
+    </div>
+
+    <!-- YouTube Live Embed -->
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/2QrzgMBYIgI?si=6R-M3gHifN1rFEth" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+  </main>
 
   <section id="blog">
     <h2>Latest News & Updates</h2>
-    
 
     <div class="blog-post">
-      <img src="KYOGA TV.jpg" alt="Blog Image 1">
+      <img src="KYOGA TV.jpg" alt="Blog Image 1" />
       <div>
         <h3>New Program Launch</h3>
         <p>Kyoga TV is excited to launch a new youth-focused program every Friday at 7PM.</p>
@@ -286,15 +299,15 @@
     </div>
 
     <div class="blog-post">
-      <img src="IMG_20250701_131415_535.jpg" alt="Blog Image 2">
+      <img src="IMG_20250701_131415_535.jpg" alt="Blog Image 2" />
       <div>
         <h3>Felix Olica to Uplift Northern Music</h3>
-        <p>Felix Olica, CEO of Kyoga TV, vows to boost the northern Ugandan music industry by offering airplay, organizing music festivals, and changing public perception. “We are making quality music, yet remain underrated,” says Olica. Kyoga TV broadcasts on YouTube, Facebook, TikTok, and X.</p>
+        <p>Felix Olica, CEO of Kyoga TV, vows to boost the northern Ugandan music industry by offering airplay, organizing music festivals, and changing public perception.</p>
       </div>
     </div>
 
     <div class="blog-post">
-      <img src="IMG_20250705_174440_346.jpg" alt="Blog Image 3">
+      <img src="IMG_20250705_174440_346.jpg" alt="Blog Image 3" />
       <div>
         <h3>Inside Kyoga: Behind the Scenes</h3>
         <p>Ever wondered what goes on behind the scenes at Kyoga TV? Take a peek into the studio and meet the crew making it all happen.</p>
@@ -314,25 +327,49 @@
   </footer>
 
   <script>
-  function updateDateTime() {
-    const now = new Date();
-    const options = {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: true
-    };
-    const dateTimeString = now.toLocaleString('en-US', options);
-    document.getElementById('datetime').textContent = dateTimeString;
-  }
+    // Date & Time update
+    function updateDateTime() {
+      const now = new Date();
+      const options = {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: true
+      };
+      document.getElementById('datetime').textContent = now.toLocaleString('en-US', options);
+    }
+    updateDateTime();
+    setInterval(updateDateTime, 1000);
 
-  // Update immediately and then every second
-  updateDateTime();
-  setInterval(updateDateTime, 1000);
-</script>
+    // Mobile nav toggle
+    const toggleBtn = document.getElementById('menu-toggle');
+    const navLinks = document.getElementById('nav-links');
+    toggleBtn.addEventListener('click', () => {
+      navLinks.classList.toggle('show');
+    });
+
+    // Audio plays & downloads tracking
+    const audio = document.querySelector('audio');
+    const audioPlays = document.getElementById('audioPlays');
+    const audioDownloads = document.getElementById('audioDownloads');
+
+    let plays = parseInt(localStorage.getItem('audioPlays')) || 0;
+    let downloads = parseInt(localStorage.getItem('audioDownloads')) || 0;
+
+    audioPlays.innerText = plays;
+    audioDownloads.innerText = downloads;
+
+    audio.addEventListener('play', () => {
+      plays++;
+      localStorage.setItem('audioPlays', plays);
+      audioPlays.innerText = plays;
+    });
+
+    // Download counting would require a link, but your audio source is inside <audio>, so no direct download link event here.
+  </script>
 </body>
 </html>
