@@ -294,7 +294,7 @@
     </div>
 
     <div class="blog-post">
-      <img src="poster.jpg" alt="Blog Image 3">
+      <img src="IMG_20250705_174440_346.jpg" alt="Blog Image 3">
       <div>
         <h3>Inside Kyoga: Behind the Scenes</h3>
         <p>Ever wondered what goes on behind the scenes at Kyoga TV? Take a peek into the studio and meet the crew making it all happen.</p>
