@@ -246,9 +246,10 @@
 
     <ul class="nav-links" id="nav-links">
       <li><a href="#">Home</a></li>
-      <li><a href="#">About</a></li>
-      <li><a href="#">Our Team</a></li>
-      <li><a href="#">Our Contacts</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="our team.html">Our Team</a></li>
+      <li><a href="our contacts.html">Our Contacts</a></li>
+      <li><a href="Program Line Up.html"> Program Line Up</a></li>
     </ul>
   </nav>
 
