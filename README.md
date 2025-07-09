@@ -4,10 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Kyoga TV Live</title>
-
-  <!-- Google Fonts: Poppins -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
-
   <style>
     * {
       box-sizing: border-box;
@@ -16,20 +13,20 @@
     }
 
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f8f8f8;
+      font-family: 'Poppins', sans-serif;
+      background-color: #f2f2f2;
       color: #333;
       line-height: 1.6;
     }
 
     header {
-      background-color: #003366;
-      color: white;
-      padding: 15px 20px;
+      background-color: #fff;
+      color: #333;
+      padding: 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      flex-wrap: wrap;
+      border-bottom: 1px solid #ddd;
     }
 
     header img {
@@ -38,13 +35,12 @@
 
     .datetime {
       font-size: 14px;
+      color: #555;
     }
 
-    /* Navigation Bar */
     nav.nav {
-      background-color: #5a2a83; /* deep purple */
-      padding: 10px 20px;
-      font-family: 'Poppins', sans-serif;
+      background-color: #1d1147;
+      padding: 15px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -56,7 +52,6 @@
       text-decoration: none;
       font-weight: 700;
       font-size: 24px;
-      font-family: 'Poppins', sans-serif;
     }
 
     ul.nav-links {
@@ -70,46 +65,61 @@
     }
 
     ul.nav-links li a {
-      color: #f3e8ff; /* light lavender */
+      color: #ffffff;
       font-weight: 600;
       font-size: 16px;
-      padding: 8px 12px;
+      padding: 10px 15px;
       text-decoration: none;
-      border-radius: 4px;
+      border-radius: 5px;
       transition: background 0.3s ease, color 0.3s ease;
-      display: inline-block;
     }
 
     ul.nav-links li a:hover {
-      background-color: #b692e6; /* lighter purple on hover */
-      color: #2c0051; /* dark purple text on hover */
+      background-color: #f0ac45;
+      color: #1d1147;
     }
 
-    /* Mobile menu toggle button */
     #menu-toggle {
       display: none;
+      font-size: 28px;
+      color: #fff;
       background: none;
       border: none;
-      font-size: 28px;
-      color: #f3e8ff;
       cursor: pointer;
     }
 
-    /* Main content */
     main {
       padding: 40px 20px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .radio-player, .video-section {
+      background: #f0f3f2;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      margin-bottom: 30px;
       text-align: center;
+    }
+
+    .radio-player h2 {
+      margin-bottom: 15px;
+    }
+
+    .radio-player audio {
+      width: 100%;
     }
 
     .news-ticker {
       width: 100%;
-      background-color: #003366;
+      background-color: #8bc2ee;
       color: white;
       overflow: hidden;
       white-space: nowrap;
       padding: 10px 0;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-      margin-bottom: 20px;
+      box-shadow: 0 2px 4px rgba(39, 3, 245, 0.2);
+      margin: 30px 0;
       font-size: 16px;
       font-weight: bold;
       position: relative;
@@ -122,82 +132,39 @@
     }
 
     @keyframes ticker {
-      0% {
-        transform: translateX(0%);
-      }
-      100% {
-        transform: translateX(-100%);
-      }
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-100%); }
     }
 
-    main iframe {
+    iframe {
       width: 100%;
-      max-width: 800px;
       height: 450px;
-      border-radius: 8px;
+      border-radius: 10px;
       border: none;
     }
 
-    section#blog {
-      margin: 50px auto;
-      width: 90%;
-      max-width: 1000px;
-    }
-
-    #blog h2 {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-
-    .blog-post {
-      display: flex;
-      gap: 20px;
-      margin-bottom: 40px;
-      flex-wrap: wrap;
-      background: white;
-      border-radius: 8px;
-      padding: 15px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.05);
-    }
-
-    .blog-post img {
-      width: 200px;
-      border-radius: 8px;
-    }
-
-    .blog-post div {
-      flex: 1;
-    }
-
     footer {
-      background-color: #003366;
+      background-color: #1d1147;
       color: white;
       padding: 20px;
       text-align: center;
-      font-family: 'Poppins', sans-serif;
     }
 
     .social-links a {
-      color: white;
-      margin: 0 8px;
+      color: #f0ac45;
+      margin: 0 10px;
       text-decoration: none;
-      font-weight: 600;
     }
 
     .social-links a:hover {
       text-decoration: underline;
     }
 
-    a {
-      color: #c8ff00;
-    }
-
-    /* Responsive styles */
     @media (max-width: 768px) {
       ul.nav-links {
         flex-direction: column;
         width: 100%;
-        display: none; /* hide by default on mobile */
+        display: none;
         margin-top: 10px;
       }
 
@@ -209,23 +176,12 @@
         margin: 10px 0;
       }
 
-      main iframe {
-        height: 250px;
-      }
-
-      .blog-post {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .blog-post img {
-        width: 100%;
-        max-width: 100%;
-      }
-
-      /* Show menu toggle button */
       #menu-toggle {
         display: block;
+      }
+
+      iframe {
+        height: 250px;
       }
     }
   </style>
@@ -241,94 +197,55 @@
     <div class="logo">
       <h2><a href="#">Kyoga TV</a></h2>
     </div>
-
-    <button id="menu-toggle" aria-label="Toggle navigation menu">&#9776;</button>
-
+    <button id="menu-toggle">&#9776;</button>
     <ul class="nav-links" id="nav-links">
       <li><a href="#">Home</a></li>
       <li><a href="about.html">About</a></li>
       <li><a href="our team.html">Our Team</a></li>
       <li><a href="our contacts.html">Our Contacts</a></li>
-      <li><a href="Program Line Up.html"> Program Line Up</a></li>
+      <li><a href="Program Line Up.html">Program Line Up</a></li>
+      <li><a href="live.html">Live</a></li>
     </ul>
   </nav>
 
-  <div style="text-align: center; max-width: 400px; margin: auto; font-family: Arial, sans-serif;">
-    <h2>🎧 Olix Radio – Listen Live</h2>
-    <img src="https://KYOGA TV.jpg" alt="Olix Radio Logo" style="width: 100%; max-width: 300px; border-radius: 10px; margin-bottom: 15px;">
-    <audio controls style="width: 100%;">
-      <source src="https://stream.zeno.fm/4mb1wxhrefhvv" type="audio/mpeg">
-      Your browser does not support the audio element.
-    </audio>
-  </div>
-
-  <audio controls>
-    <source src="best.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
-  </audio>
-  <p>Audio Plays: <span id="audioPlays">0</span></p>
-  <p>Audio Downloads: <span id="audioDownloads">0</span></p>
-
   <main>
-    <h1>Kyoga TV Live</h1>
+    <!-- Olix Radio -->
+    <div class="radio-player">
+      <h2>🎧 Olix Radio – Listen Live</h2>
+      <img src="ChatGPT Image Jul 5, 2025, 10_01_33 PM.png" alt="Olix Radio" style="width: 300px; border-radius: 10px; margin-bottom: 15px;">
+      <audio autoplay controls>
+        <source src="https://stream.zeno.fm/4mb1wxhrefhvv" type="audio/mpeg">
+        Your browser does not support the audio element.
+      </audio>
+    </div>
 
     <!-- News Ticker -->
     <div class="news-ticker">
       <div class="ticker-content">
-        🚨 New Show: Youth Talk Fridays 7PM | 🎤 Felix Olica: Northern Music Rising | 🎥 Behind The Scenes at Kyoga TV | 📢 Tune in Live on YouTube, Facebook & TikTok!
+        🎙️ Youth Talk Fridays 7PM | 📺 Felix Olica: Northern Music Rising | 🎥 Behind The Scenes at Kyoga TV | 🔴 Tune in Live on YouTube, Facebook & TikTok!
       </div>
     </div>
 
-    <!-- YouTube Live Embed -->
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/2QrzgMBYIgI?si=6R-M3gHifN1rFEth" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    <!-- YouTube Live -->
+    <div class="video-section">
+      <h2>📡 Kyoga TV – On YouTube</h2>
+      <iframe src="https://www.youtube.com/embed/2QrzgMBYIgI?si=6R-M3gHifN1rFEth" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    </div>
   </main>
-
-  <section id="blog">
-    <h2>Latest News & Updates</h2>
-
-    <div class="blog-post">
-      <img src="KYOGA TV.jpg" alt="Blog Image 1" />
-      <div>
-        <h3>New Program Launch</h3>
-        <p>Kyoga TV is excited to launch a new youth-focused program every Friday at 7PM.</p>
-        <p>Share this:
-          <a href="https://wa.me/?text=Check%20out%20this%20news%20on%20Kyoga%20TV:%20https://kyogatv.github.io/kyoga-tv/" target="_blank">WhatsApp</a> |
-          <a href="https://www.facebook.com/sharer/sharer.php?u=https://kyogatv.github.io/kyoga-tv/" target="_blank">Facebook</a> |
-          <a href="https://twitter.com/intent/tweet?text=Check%20this%20news%20from%20Kyoga%20TV&url=https://kyogatv.github.io/kyoga-tv/" target="_blank">Twitter</a>
-        </p>
-      </div>
-    </div>
-
-    <div class="blog-post">
-      <img src="IMG_20250701_131415_535.jpg" alt="Blog Image 2" />
-      <div>
-        <h3>Felix Olica to Uplift Northern Music</h3>
-        <p>Felix Olica, CEO of Kyoga TV, vows to boost the northern Ugandan music industry by offering airplay, organizing music festivals, and changing public perception.</p>
-      </div>
-    </div>
-
-    <div class="blog-post">
-      <img src="IMG_20250705_174440_346.jpg" alt="Blog Image 3" />
-      <div>
-        <h3>Inside Kyoga: Behind the Scenes</h3>
-        <p>Ever wondered what goes on behind the scenes at Kyoga TV? Take a peek into the studio and meet the crew making it all happen.</p>
-      </div>
-    </div>
-  </section>
 
   <footer>
     <div class="social-links">
-      <a href="https://www.facebook.com/kyogatv" target="_blank">Facebook</a> |
+      <a href="https://facebook.com/kyogatv" target="_blank">Facebook</a> |
       <a href="https://x.com/kyogatv" target="_blank">X (Twitter)</a> |
-      <a href="https://www.tiktok.com/@kyogatv" target="_blank">TikTok</a> |
-      <a href="https://www.youtube.com/@kyogatv" target="_blank">YouTube</a>
+      <a href="https://tiktok.com/@kyogatv" target="_blank">TikTok</a> |
+      <a href="https://youtube.com/@kyogatv" target="_blank">YouTube</a>
     </div>
-    <p><a href="mailto:info@kyogatv.com" style="color:white;">info@kyogatv.com</a> | <a href="https://wa.me/256789223294" target="_blank" style="color:white;">WhatsApp: +256789223294</a></p>
+    <p><a href="mailto:info@kyogatv.com" style="color:white;">info@kyogatv.com</a> | <a href="https://wa.me/256789223294" style="color:white;" target="_blank">WhatsApp: +256789223294</a></p>
     <p>&copy; 2025 Kyoga TV. All rights reserved.</p>
   </footer>
 
   <script>
-    // Date & Time update
+    // Date & Time
     function updateDateTime() {
       const now = new Date();
       const options = {
@@ -346,31 +263,12 @@
     updateDateTime();
     setInterval(updateDateTime, 1000);
 
-    // Mobile nav toggle
+    // Mobile menu toggle
     const toggleBtn = document.getElementById('menu-toggle');
     const navLinks = document.getElementById('nav-links');
     toggleBtn.addEventListener('click', () => {
       navLinks.classList.toggle('show');
     });
-
-    // Audio plays & downloads tracking
-    const audio = document.querySelector('audio');
-    const audioPlays = document.getElementById('audioPlays');
-    const audioDownloads = document.getElementById('audioDownloads');
-
-    let plays = parseInt(localStorage.getItem('audioPlays')) || 0;
-    let downloads = parseInt(localStorage.getItem('audioDownloads')) || 0;
-
-    audioPlays.innerText = plays;
-    audioDownloads.innerText = downloads;
-
-    audio.addEventListener('play', () => {
-      plays++;
-      localStorage.setItem('audioPlays', plays);
-      audioPlays.innerText = plays;
-    });
-
-    // Download counting would require a link, but your audio source is inside <audio>, so no direct download link event here.
   </script>
 </body>
 </html>
