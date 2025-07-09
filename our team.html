@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Our Team - Kyoga TV</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f8f8f8;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+    }
+
+    header {
+      background: #5a2a83;
+      color: white;
+      text-align: center;
+      padding: 15px 10px;
+      margin-bottom: 30px;
+    }
+
+    h1 {
+      margin: 0;
+    }
+
+    .team-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .team-member {
+      background: white;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .team-member:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .team-member img {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin-bottom: 12px;
+      border: 3px solid #5a2a83;
+    }
+
+    .team-member h3 {
+      margin: 10px 0 5px;
+      font-size: 1.2em;
+      color: #5a2a83;
+    }
+
+    .team-member p {
+      margin: 0;
+      font-size: 0.95em;
+      color: #666;
+    }
+
+    button.home-btn {
+      display: block;
+      margin: 30px auto 0;
+      background-color: #5a2a83;
+      color: white;
+      border: none;
+      padding: 10px 25px;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button.home-btn:hover {
+      background-color: #471d65;
+    }
+
+    @media (max-width: 480px) {
+      .team-member img {
+        width: 100px;
+        height: 100px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Our Team</h1>
+  </header>
+
+  <section class="team-container">
+    <div class="team-member">
+      <img src="IMG_20250701_131415_535.jpg" alt="Felix Olica" />
+      <h3>Felix Olica</h3>
+      <p>CEO, Producer & Host of the Sunset Party</p>
+    </div>
+  </section>
+
+  <button class="home-btn" onclick="window.location.href='home.html'">Home</button>
+
+</body>
+</html>
