@@ -199,7 +199,7 @@
     </div>
     <button id="menu-toggle">&#9776;</button>
     <ul class="nav-links" id="nav-links">
-      <li><a href="#">Home</a></li>
+      <li><a href="home.html">Home</a></li>
       <li><a href="about.html">About</a></li>
       <li><a href="our team.html">Our Team</a></li>
       <li><a href="our contacts.html">Our Contacts</a></li>
@@ -222,7 +222,7 @@
     <!-- News Ticker -->
     <div class="news-ticker">
       <div class="ticker-content">
-        🎙️ Youth Talk Fridays 7PM | 📺 Felix Olica: Northern Music Rising | 🎥 Behind The Scenes at Kyoga TV | 🔴 Tune in Live on YouTube, Facebook & TikTok!
+        🎙️ We Are Here To Promote Music and Businesses | 📺 To Advertise here call us on 0789223294| 🎥 Please share this website to friends and family  | 🔴 Tune in Live on YouTube, Facebook & TikTok!
       </div>
     </div>
 
