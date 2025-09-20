@@ -6,20 +6,6 @@
 <meta name="description" content="Kyoga TV News – Latest news, updates, and stories.">
 <title>Kyoga TV News</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Roboto+Slab:wght@400;600&display=swap" rel="stylesheet" />
-
-<!-- Open Graph -->
-<meta property="og:title" content="Kyoga TV News" id="og-title">
-<meta property="og:description" content="Kyoga TV reports latest stories." id="og-desc">
-<meta property="og:image" content="KYOGA TV.jpg" id="og-image">
-<meta property="og:url" content="https://yourusername.github.io/yourrepo/news.html" id="og-url">
-<meta property="og:type" content="article">
-
-<!-- Twitter Card -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Kyoga TV News" id="tw-title">
-<meta name="twitter:description" content="Kyoga TV reports latest stories." id="tw-desc">
-<meta name="twitter:image" content="KYOGA TV.jpg" id="tw-image">
-
 <style>
 :root {
   --primary-color: #1d1147;
@@ -60,12 +46,6 @@ nav.nav { background-color: var(--primary-color); display:flex; justify-content:
 /* Load More Button */
 #load-more { display:block; margin:20px auto; padding:10px 20px; background:var(--accent-color); color:#fff; font-weight:600; border:none; border-radius:5px; cursor:pointer; transition: background 0.3s; }
 #load-more:hover { background:var(--primary-color); }
-
-/* Single Article View */
-.single-article { max-width:800px; margin:30px auto; padding:20px; background:#fff; border-radius:12px; box-shadow:0 4px 15px rgba(0,0,0,0.1); }
-.single-article img { width:100%; border-radius:12px; margin-bottom:15px; }
-.single-article h2 { margin-bottom:15px; color:var(--primary-color); font-family:'Roboto Slab', serif; }
-.single-article p { margin-bottom:15px; }
 
 /* Footer */
 footer { background-color: var(--primary-color); color:white; padding:20px; text-align:center; }
@@ -126,11 +106,9 @@ footer { background-color: var(--primary-color); color:white; padding:20px; text
 // Date & Time (East Africa Time)
 function updateDateTime() {
   const now = new Date();
-  const options = {
-    weekday:'long', year:'numeric', month:'long', day:'numeric',
-    hour:'2-digit', minute:'2-digit', second:'2-digit',
-    hour12:true, timeZone:'Africa/Nairobi'
-  };
+  const options = { weekday:'long', year:'numeric', month:'long', day:'numeric',
+                    hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:true,
+                    timeZone:'Africa/Nairobi' };
   document.getElementById('datetime').textContent = now.toLocaleString('en-US', options);
 }
 updateDateTime(); setInterval(updateDateTime,1000);
@@ -149,13 +127,13 @@ async function loadNews(){
   try{
     const res = await fetch('news.json');
     newsData = await res.json();
-    // Sort newest first
-    newsData.sort((a,b)=> new Date(b.date) - new Date(a.date));
-    checkSingleArticle();
+    newsData.sort((a,b)=> new Date(b.date) - new Date(a.date)); // newest first
+    displayNews();
+    setupCategories();
   }catch(err){ console.error("Error loading news.json",err); }
 }
 
-// Categories + Display
+// Categories
 const categoryButtons=document.getElementById('category-buttons');
 const newsGrid=document.getElementById('news-grid');
 const loadMoreBtn=document.getElementById('load-more');
@@ -178,13 +156,14 @@ function getFilteredData(){
   return currentCategory==='all'? newsData : newsData.filter(item=>item.category===currentCategory);
 }
 
+// Display News
 function displayNews(){
-  setupCategories();
   const filtered=getFilteredData();
   const end=itemsPerPage*currentPage;
   newsGrid.innerHTML='';
   filtered.slice(0,end).forEach(item=>{
-    const firstParagraph=item.description.split('\\n\\n')[0]; // only first paragraph
+    const slug = item.title.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+    const firstParagraph=item.description.split('\n\n')[0];
     const card=document.createElement('div');
     card.className='news-card';
     card.innerHTML=`
@@ -192,46 +171,14 @@ function displayNews(){
       <div class="news-content">
         <h3>${item.title}</h3>
         <p>${firstParagraph}</p>
-        <a class="read-more" href="news.html?title=${encodeURIComponent(item.title)}">Read More →</a>
+        <a class="read-more" href="news-${slug}.html">Read More →</a>
       </div>`;
     newsGrid.appendChild(card);
   });
   loadMoreBtn.style.display=(end>=filtered.length)?'none':'block';
 }
+
 loadMoreBtn.addEventListener('click',()=>{ currentPage++; displayNews(); });
-
-// Single article page
-function checkSingleArticle(){
-  const params=new URLSearchParams(window.location.search);
-  const title=params.get('title');
-  if(title){
-    const article=newsData.find(n=>n.title===decodeURIComponent(title));
-    if(article){
-      // Inject meta tags for sharing
-      document.getElementById("og-title").setAttribute("content", article.title);
-      document.getElementById("og-desc").setAttribute("content", article.description.split('\\n\\n')[0]);
-      document.getElementById("og-image").setAttribute("content", article.image);
-      document.getElementById("og-url").setAttribute("content", window.location.href);
-
-      document.getElementById("tw-title").setAttribute("content", article.title);
-      document.getElementById("tw-desc").setAttribute("content", article.description.split('\\n\\n')[0]);
-      document.getElementById("tw-image").setAttribute("content", article.image);
-
-      document.getElementById('news-container').innerHTML=renderSingleArticle(article);
-    }
-  }else{
-    displayNews();
-  }
-}
-function renderSingleArticle(item){
-  const paragraphs=item.description.split('\\n\\n').map(p=>`<p>${p}</p>`).join('');
-  return `
-    <div class="single-article">
-      <img src="${item.image}" alt="${item.title}">
-      <h2>${item.title}</h2>
-      ${paragraphs}
-    </div>`;
-}
 
 loadNews();
 </script>
