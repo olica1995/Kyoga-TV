@@ -6,6 +6,20 @@
 <meta name="description" content="Kyoga TV News – Latest news, updates, and stories.">
 <title>Kyoga TV News</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Roboto+Slab:wght@400;600&display=swap" rel="stylesheet" />
+
+<!-- Open Graph -->
+<meta property="og:title" content="Kyoga TV News" id="og-title">
+<meta property="og:description" content="Kyoga TV reports latest stories." id="og-desc">
+<meta property="og:image" content="KYOGA TV.jpg" id="og-image">
+<meta property="og:url" content="https://yourusername.github.io/yourrepo/news.html" id="og-url">
+<meta property="og:type" content="article">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Kyoga TV News" id="tw-title">
+<meta name="twitter:description" content="Kyoga TV reports latest stories." id="tw-desc">
+<meta name="twitter:image" content="KYOGA TV.jpg" id="tw-image">
+
 <style>
 :root {
   --primary-color: #1d1147;
@@ -193,6 +207,16 @@ function checkSingleArticle(){
   if(title){
     const article=newsData.find(n=>n.title===decodeURIComponent(title));
     if(article){
+      // Inject meta tags for sharing
+      document.getElementById("og-title").setAttribute("content", article.title);
+      document.getElementById("og-desc").setAttribute("content", article.description.split('\\n\\n')[0]);
+      document.getElementById("og-image").setAttribute("content", article.image);
+      document.getElementById("og-url").setAttribute("content", window.location.href);
+
+      document.getElementById("tw-title").setAttribute("content", article.title);
+      document.getElementById("tw-desc").setAttribute("content", article.description.split('\\n\\n')[0]);
+      document.getElementById("tw-image").setAttribute("content", article.image);
+
       document.getElementById('news-container').innerHTML=renderSingleArticle(article);
     }
   }else{
