@@ -7,52 +7,13 @@
     "date": "2025-09-20T10:00:00+03:00"
   },
   {
-    "title": "Upcoming Music Festival",
-    "description": "Don't miss the annual music festival featuring top local and international artists.",
-    "image": "https://source.unsplash.com/400x200/?concert",
-    "category": "Events",
-    "date": "2025-09-19T14:30:00+03:00"
+    "title": "Breaking News: Kyoga TV Experiences Theft of Critical Equipment",
+    "description": "On July 29, 2025, Kyoga TV suffered a significant setback when their computer, serving as both a playout system and video switcher, was stolen from Omoro Town Council. The incident was promptly reported to Omoro Central Police Station the following morning, and a case was duly recorded.
+\n\nAfter a month-long investigation, the suspect was apprehended on August 28, 2025. Kyoga TV's CEO, Mr. Felix Olica, confirmed the development and assured our news team that the station would resume normal operations after clearing with the police.
+\n\nMr. Olica strongly condemned the theft, emphasizing its impact on the station's operations. Kyoga TV content remains accessible online through their website (www.kyogatv.com), YouTube, Facebook, TikTok, and X (formerly Twitter).
+\n\nWe will continue to monitor the situation and provide updates as more information becomes available.",
+    "image": "olica.jpg",
+    "Category": "Music",
+    "date": "2025-09-20T12:00:53:00"
   },
-  {
-    "title": "Church Anniversary Celebration",
-    "description": "Religious celebrations take place across the city for the annual church anniversary.",
-    "image": "https://source.unsplash.com/400x200/?church",
-    "category": "Religious",
-    "date": "2025-09-18T09:30:00+03:00"
-  },
-  {
-    "title": "Local Politics Update",
-    "description": "City council announces new policies affecting local businesses and residents.",
-    "image": "https://source.unsplash.com/400x200/?politics",
-    "category": "Politics",
-    "date": "2025-09-17T11:00:00+03:00"
-  },
-  {
-    "title": "Foreign Diplomatic Visit",
-    "description": "An important foreign diplomat visits the country to strengthen ties.",
-    "image": "https://source.unsplash.com/400x200/?foreign",
-    "category": "Foreign",
-    "date": "2025-09-16T15:00:00+03:00"
-  },
-  {
-    "title": "Business Conference Highlights",
-    "description": "Kyoga TV covers the key takeaways from the annual business conference.",
-    "image": "https://source.unsplash.com/400x200/?business",
-    "category": "Business",
-    "date": "2025-09-15T13:00:00+03:00"
-  },
-  {
-    "title": "New Education Policy Announced",
-    "description": "The Ministry of Education releases a new policy for schools nationwide.",
-    "image": "https://source.unsplash.com/400x200/?education",
-    "category": "Education",
-    "date": "2025-09-14T09:00:00+03:00"
-  },
-  {
-    "title": "Local Festival Brings Communities Together",
-    "description": "An annual festival celebrates culture, food, and music from different regions.",
-    "image": "https://source.unsplash.com/400x200/?festival",
-    "category": "Others",
-    "date": "2025-09-13T10:00:00+03:00"
-  }
 ]
