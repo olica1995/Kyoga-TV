@@ -22,5 +22,27 @@
   "date_published": "2025-09-21",
   "image": "langocattle.jpg",
   "category": "Politics"
+},
+  {
+  "title": "Uganda’s Arts Teachers Strike Disrupts Schools Amid Pay Dispute",
+  "description": "Arts teachers in Uganda are on strike, demanding fairer salaries. The nationwide disruption threatens students’ exam preparations as negotiations with the government continue.",
+  "author": "Kyoga TV News Desk",
+  "dateline": "Kampala, Uganda",
+  "image": "unatu.jpg",
+  "date": "2025-09-21",
+  "social": {
+    "og": {
+      "title": "Uganda’s Arts Teachers Strike Disrupts Schools Amid Pay Dispute",
+      "description": "Arts teachers across Uganda are striking over pay disparities, disrupting schools ahead of critical exams.",
+      "type": "article",
+      "image": "unatu.jpg"
+    },
+    "twitter": {
+      "card": "summary_large_image",
+      "title": "Uganda’s Arts Teachers Strike Disrupts Schools Amid Pay Dispute",
+      "description": "Arts teachers in Uganda are on strike, demanding fair pay and affecting exam preparations nationwide.",
+      "image": "unatu.jpg"
+    }
+  }
 }
 ]
