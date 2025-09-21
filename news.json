@@ -4,7 +4,7 @@
     "description": "Arts teachers in Uganda are on strike, demanding fairer salaries. The nationwide disruption threatens students’ exam preparations as negotiations with the government continue.",
     "author": "Kyoga TV News Desk",
     "dateline": "Kampala, Uganda",
-    "image": "/images/unatu.jpg",
+    "image": "unatu.jpg",
     "category": "Education",
     "date": "2025-09-21"
   },
@@ -12,7 +12,7 @@
     "title": "Local Artist Releases New Hit",
     "description": "Kyoga TV reports on the latest single from our favorite local artist that's topping the charts.",
     "author": "Kyoga TV Music Desk",
-    "image": "https://source.unsplash.com/400x200/?music",
+    "image": "blessed.jpg",
     "category": "Music",
     "date": "2025-09-20T10:00:00+03:00"
   },
@@ -20,7 +20,7 @@
     "title": "Breaking News: Kyoga TV Experiences Theft of Critical Equipment",
     "description": "On July 29, 2025, Kyoga TV suffered a significant setback when their computer, serving as both a playout system and video switcher, was stolen from Omoro Town Council. The suspect was apprehended on August 28. CEO Felix Olica confirmed the development and assured resumption of normal operations. Kyoga TV content remains accessible online through their website and social media platforms.",
     "author": "Kyoga TV News Desk",
-    "image": "/images/crime.jpeg",
+    "image": "crime.jpeg",
     "category": "News",
     "date": "2025-09-20T12:00:53+03:00"
   },
@@ -29,7 +29,7 @@
     "description": "President Museveni has called on the people of Lango sub-region to select a trusted committee to engage the government on the long-stalled cattle compensation program. Residents demand transparency, prioritization of verified claims, and elimination of middlemen. The committee’s formation is seen as a potential solution to restore trust and expedite payments.",
     "author": "Olica Felix",
     "dateline": "Lira, Uganda",
-    "image": "/images/langocattle.jpg",
+    "image": "langocattle.jpg",
     "category": "Politics",
     "date": "2025-09-21"
   }
