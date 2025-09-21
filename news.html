@@ -141,7 +141,7 @@ footer { background-color: var(--primary-color); color:white; padding:20px; text
 <div id="toast">Copied to clipboard!</div>
 
 <script>
-// Date & Time (East Africa Time)
+// ===== Date & Time =====
 function updateDateTime() {
   const now = new Date();
   const options = {
@@ -153,14 +153,14 @@ function updateDateTime() {
 }
 updateDateTime(); setInterval(updateDateTime,1000);
 
-// Mobile menu toggle
+// ===== Mobile Menu Toggle =====
 document.getElementById('menu-toggle').addEventListener('click',()=>{
   const nav = document.getElementById('nav-links');
   nav.classList.toggle('show');
   document.getElementById('menu-toggle').setAttribute('aria-expanded', nav.classList.contains('show'));
 });
 
-// Toast
+// ===== Toast =====
 function showToast(msg){
   const toast = document.getElementById("toast");
   toast.textContent = msg;
@@ -168,7 +168,7 @@ function showToast(msg){
   setTimeout(()=>{ toast.className = toast.className.replace("show", ""); }, 2500);
 }
 
-// Fetch News Data
+// ===== Fetch News Data =====
 let newsData = [];
 async function loadNews(){
   try{
@@ -179,7 +179,7 @@ async function loadNews(){
   }catch(err){ console.error("Error loading news.json",err); }
 }
 
-// Display either single article or news grid
+// ===== Display page =====
 function displayPage(){
   const params = new URLSearchParams(window.location.search);
   const newsId = params.get('id');
@@ -192,7 +192,7 @@ function displayPage(){
   }
 }
 
-// Setup categories
+// ===== Categories & Grid =====
 const categoryButtons=document.getElementById('category-buttons');
 const newsGrid=document.getElementById('news-grid');
 const loadMoreBtn=document.getElementById('load-more');
@@ -215,19 +215,21 @@ function getFilteredData(){
   return currentCategory==='all'? newsData : newsData.filter(item=>item.category===currentCategory);
 }
 
-// Display news grid
+// ===== Display News Grid =====
 function displayNewsGrid(){
   const filtered = getFilteredData();
   const end = itemsPerPage * currentPage;
   newsGrid.innerHTML='';
   filtered.slice(0,end).forEach(item=>{
     const paragraphs = item.description.split('\n\n');
+    const authorInfo = item.author ? `<p><em>By ${item.author}${item.dateline ? ', ' + item.dateline : ''}</em></p>` : '';
     const card = document.createElement('div');
     card.className='news-card';
     card.innerHTML=`
       <img loading="lazy" src="${item.image}" alt="${item.title}">
       <div class="news-content">
         <h3>${item.title}</h3>
+        ${authorInfo}
         <div class="news-full" style="display:none;">${paragraphs.map(p=>`<p>${p}</p>`).join('')}</div>
         <a class="read-more">Read More →</a>
         <div class="share-buttons">
@@ -238,7 +240,7 @@ function displayNewsGrid(){
         </div>
       </div>
     `;
-    // Read more toggle
+    // Read More
     const readMoreBtn = card.querySelector('.read-more');
     const fullText = card.querySelector('.news-full');
     const shareButtons = card.querySelector('.share-buttons');
@@ -255,7 +257,7 @@ function displayNewsGrid(){
       }
       card.scrollIntoView({ behavior:'smooth', block:'start' });
     });
-    // Share links
+    // Share Links
     const fb = card.querySelector('.share-facebook');
     const x = card.querySelector('.share-x');
     const wa = card.querySelector('.share-whatsapp');
@@ -276,7 +278,7 @@ function displayNewsGrid(){
 
 loadMoreBtn.addEventListener('click',()=>{ currentPage++; displayNewsGrid(); });
 
-// Display single article page
+// ===== Single Article =====
 function displaySingleArticle(article){
   document.title = article.title;
   const paragraphs = article.description.split('\n\n');
@@ -288,11 +290,13 @@ function displaySingleArticle(article){
   document.getElementById('tw-desc').content = paragraphs[0];
   document.getElementById('tw-image').content = article.image;
 
+  const authorInfo = article.author ? `<p><em>By ${article.author}${article.dateline ? ', ' + article.dateline : ''}</em></p>` : '';
   newsGrid.innerHTML = `
     <div class="news-card">
       <img loading="lazy" src="${article.image}" alt="${article.title}">
       <div class="news-content">
         <h3>${article.title}</h3>
+        ${authorInfo}
         <div class="news-full" style="display:block;">${paragraphs.map(p=>`<p>${p}</p>`).join('')}</div>
         <div class="share-buttons" style="display:flex;">
           <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}" class="share-facebook" target="_blank"><i class="fab fa-facebook-f"></i> Facebook</a>
@@ -304,7 +308,6 @@ function displaySingleArticle(article){
     </div>
   `;
 
-  // Copy link for single article
   const copyBtn = newsGrid.querySelector('.copy-link-btn');
   copyBtn.addEventListener('click', async ()=>{
     try{ await navigator.clipboard.writeText(article.title + "\n" + paragraphs[0] + "\n" + window.location.href); showToast("Copied to clipboard!"); }
