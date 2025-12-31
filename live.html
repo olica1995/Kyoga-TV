@@ -104,7 +104,8 @@
     const backBtn = document.getElementById('backBtn');
     const liveIndicator = document.getElementById('liveIndicator');
 
-    const streamUrl = 'https://guyana-cheats-dvds-total.trycloudflare.com/hls/stream.m3u8';
+    // SSH101 HLS stream
+    const streamUrl = 'https://live21.bozztv.com/akamaissh101/ssh101/livetv1995/playlist.m3u8';
     let hls = null;
     let hlsLiveOnline = false;
     let fallbackTimeout = null;
@@ -119,9 +120,19 @@
       video.volume = volumeSlider.value;
     }
 
+    // Autoplay helper for mobile
+    function tryAutoplay() {
+      video.play().then(() => {
+        enableVolume(); // unmute after first autoplay attempt
+      }).catch(() => {
+        loader.innerText = 'Click video to start live stream';
+      });
+    }
+
     // Volume control
     volumeSlider.addEventListener('input', () => {
       video.volume = volumeSlider.value;
+      if (video.muted && volumeSlider.value > 0) video.muted = false;
     });
 
     // Back button
@@ -185,8 +196,7 @@
         hls.on(Hls.Events.MANIFEST_PARSED, () => {
           hlsLiveOnline = true;
           liveIndicator.style.display = 'block';
-          video.pause();
-          video.play().then(enableVolume).catch(() => loader.innerText = 'Click to play live stream');
+          tryAutoplay();
           loader.style.display = 'none';
           if (fallbackTimeout) clearTimeout(fallbackTimeout);
         });
@@ -206,8 +216,7 @@
         video.addEventListener('loadedmetadata', () => {
           hlsLiveOnline = true;
           liveIndicator.style.display = 'block';
-          video.pause();
-          video.play().then(enableVolume).catch(() => loader.innerText = 'Click to play live stream');
+          tryAutoplay();
         });
       } else {
         loader.innerText = 'Your browser does not support HLS playback.';
@@ -227,6 +236,3 @@
   </script>
 </body>
 </html>
-
-
-
