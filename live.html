@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Kyoga TV - Online</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <title>Kyoga TV - Live</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
     body {
       margin: 0;
@@ -17,7 +18,7 @@
     }
 
     h1 {
-      margin: 10px 0 10px;
+      margin: 10px 0;
       font-size: 2em;
       color: #00ffe1;
     }
@@ -28,32 +29,21 @@
       max-height: 80vh;
       border: 4px solid #00ffe1;
       border-radius: 12px;
-      box-shadow: 0 0 20px rgba(0, 255, 225, 0.4);
       background: #000;
-      transition: opacity 0.5s ease;
+      box-shadow: 0 0 20px rgba(0, 255, 225, 0.4);
     }
 
-    button, .volume-slider {
-      margin-top: 20px;
-      padding: 10px 20px;
-      background-color: #00ffe1;
-      border: none;
-      border-radius: 6px;
-      font-size: 1rem;
-      cursor: pointer;
-      color: #000;
-      font-weight: bold;
-      transition: background-color 0.3s;
-    }
-
-    button:hover, .volume-slider:hover {
-      background-color: #00cbb6;
-    }
-
-    .loader {
+    .status {
       margin-top: 10px;
-      font-size: 0.9em;
+      font-size: 0.95rem;
       color: #aaa;
+    }
+
+    #liveIndicator {
+      margin-top: 8px;
+      font-weight: bold;
+      color: red;
+      display: none;
     }
 
     .volume-container {
@@ -68,171 +58,127 @@
       accent-color: #00ffe1;
     }
 
-    label {
-      font-size: 1rem;
-      color: #00ffe1;
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #00ffe1;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      color: #000;
+      transition: background-color 0.3s;
     }
 
-    #liveIndicator {
-      margin-top: 10px;
-      font-weight: bold;
-      color: red;
-      display: none;
-      font-size: 1rem;
+    button:hover {
+      background-color: #00cbb6;
     }
   </style>
 </head>
-<body>
-  <h1>Kyoga TV - Online</h1>
 
-  <video id="video" controls autoplay playsinline muted></video>
-  <div class="loader" id="loader">Loading videos...</div>
+<body>
+
+  <h1>Kyoga TV - Live</h1>
+
+  <video
+    id="video"
+    controls
+    autoplay
+    muted
+    playsinline
+  ></video>
+
   <div id="liveIndicator">● LIVE</div>
+  <div class="status" id="statusText">Connecting to live stream...</div>
 
   <div class="volume-container">
     <label for="volumeSlider">Volume</label>
-    <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1" aria-label="Video volume control">
+    <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1">
   </div>
 
-  <button id="backBtn" aria-label="Go back to home page">Back to Home Page</button>
+  <button onclick="window.location.href='home.html'">Back to Home</button>
 
   <script src="https://cdn.jsdelivr.net/npm/hls.js@1.4.0"></script>
   <script>
     const video = document.getElementById('video');
-    const loader = document.getElementById('loader');
-    const volumeSlider = document.getElementById('volumeSlider');
-    const backBtn = document.getElementById('backBtn');
+    const statusText = document.getElementById('statusText');
     const liveIndicator = document.getElementById('liveIndicator');
+    const volumeSlider = document.getElementById('volumeSlider');
 
-    // SSH101 HLS stream
     const streamUrl = 'https://live21.bozztv.com/akamaissh101/ssh101/livetv1995/playlist.m3u8';
-    let hls = null;
-    let hlsLiveOnline = false;
-    let fallbackTimeout = null;
-
-    // Pre-recorded videos
-    const videoTray = ['shores FM.mp4', 'olix.mp4', 'voice.mp4'];
-    let currentTrayIndex = 0;
-
-    // Enable volume
-    function enableVolume() {
-      video.muted = false;
-      video.volume = volumeSlider.value;
-    }
-
-    // Autoplay helper for mobile
-    function tryAutoplay() {
-      video.play().then(() => {
-        enableVolume(); // unmute after first autoplay attempt
-      }).catch(() => {
-        loader.innerText = 'Click video to start live stream';
-      });
-    }
+    let hls;
 
     // Volume control
     volumeSlider.addEventListener('input', () => {
       video.volume = volumeSlider.value;
-      if (video.muted && volumeSlider.value > 0) video.muted = false;
+      if (video.muted && video.volume > 0) video.muted = false;
     });
 
-    // Back button
-    backBtn.addEventListener('click', () => {
-      window.location.href = 'home.html';
-    });
+    // User interaction unmutes (mobile safe)
+    video.addEventListener('click', () => {
+      video.muted = false;
+      video.volume = volumeSlider.value;
+    }, { once: true });
 
-    // Play pre-recorded videos in a loop
-    function playTrayVideo() {
-      if (videoTray.length === 0) return;
-
-      const src = videoTray[currentTrayIndex];
-      video.style.opacity = 0;
-      video.src = src;
-
-      // Check if the video can play
-      video.load();
-      video.oncanplay = () => {
-        video.play().then(() => {
-          enableVolume();
-          video.style.opacity = 1;
-          loader.style.display = 'none';
-          liveIndicator.style.display = 'none';
-        }).catch(() => loader.innerText = 'Click to play video');
-      };
-
-      // If video fails, skip to the next one
-      video.onerror = () => {
-        console.warn(`Failed to load video: ${src}. Skipping to next.`);
-        currentTrayIndex = (currentTrayIndex + 1) % videoTray.length;
-        playTrayVideo();
-      };
-
-      video.onended = () => {
-        currentTrayIndex = (currentTrayIndex + 1) % videoTray.length;
-        playTrayVideo();
-      };
-    }
-
-    // Stop HLS
-    function stopHLS() {
-      if (hls) {
-        hls.destroy();
-        hls = null;
-      }
-      hlsLiveOnline = false;
-      liveIndicator.style.display = 'none';
-    }
-
-    // Start HLS
-    function startHLS() {
-      if (hlsLiveOnline) return;
-
-      loader.innerText = 'Checking live stream...';
+    function startLiveStream() {
+      statusText.innerText = 'Buffering live stream...';
 
       if (Hls.isSupported()) {
-        hls = new Hls();
+        hls = new Hls({
+          liveSyncDurationCount: 3,       // Keep low latency
+          maxLiveSyncPlaybackRate: 1.5,   // Smooth playback speed
+          lowLatencyMode: true,           // Reduce delay
+          backBufferLength: 90            // Keep buffer to prevent stutter
+        });
+
         hls.loadSource(streamUrl);
         hls.attachMedia(video);
 
         hls.on(Hls.Events.MANIFEST_PARSED, () => {
-          hlsLiveOnline = true;
+          video.play().catch(() => {});
           liveIndicator.style.display = 'block';
-          tryAutoplay();
-          loader.style.display = 'none';
-          if (fallbackTimeout) clearTimeout(fallbackTimeout);
+          statusText.innerText = 'Live stream connected';
         });
 
         hls.on(Hls.Events.ERROR, (event, data) => {
           if (data.fatal) {
-            stopHLS();
-            fallbackTimeout = setTimeout(() => {
-              if (!hlsLiveOnline) playTrayVideo();
-              loader.innerText = 'Live stream offline. Playing pre-recorded videos.';
-            }, 3000);
+            switch (data.type) {
+              case Hls.ErrorTypes.NETWORK_ERROR:
+                statusText.innerText = 'Network error, retrying...';
+                hls.startLoad();
+                break;
+              case Hls.ErrorTypes.MEDIA_ERROR:
+                statusText.innerText = 'Media error, recovering...';
+                hls.recoverMediaError();
+                break;
+              default:
+                statusText.innerText = 'Streaming error, buffering...';
+                break;
+            }
           }
         });
 
       } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
         video.src = streamUrl;
-        video.addEventListener('loadedmetadata', () => {
-          hlsLiveOnline = true;
-          liveIndicator.style.display = 'block';
-          tryAutoplay();
-        });
+        video.play().catch(() => {});
+        liveIndicator.style.display = 'block';
+        statusText.innerText = 'Live stream connected';
       } else {
-        loader.innerText = 'Your browser does not support HLS playback.';
+        statusText.innerText = 'Your browser does not support live streaming.';
       }
     }
 
-    // Periodically check for live stream
+    startLiveStream();
+
+    // Optional: reconnect periodically if video is stalled
     setInterval(() => {
-      if (!hlsLiveOnline) startHLS();
+      if (video.readyState === 0 && hls) {
+        statusText.innerText = 'Stream stalled, reconnecting...';
+        hls.startLoad();
+      }
     }, 10000);
-
-    // Initialize: play pre-recorded videos first
-    playTrayVideo();
-
-    // Attempt live stream on start
-    startHLS();
   </script>
+
 </body>
-</html>
+  </html>
+  
