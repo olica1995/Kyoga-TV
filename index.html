@@ -3,453 +3,227 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<meta name="description" content="Kyoga TV and Shores FM – Listen to live radio, watch previous shows, and get the latest updates.">
-<title>Kyoga TV and Shores FM</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Roboto+Slab:wght@400;600&display=swap" rel="stylesheet" />
+<title>Kyoga TV & Shores FM | Official Live Portal</title>
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Kyoga TV & Shores FM - Live Stream">
+<meta property="og:description" content="Official streaming portal for Kyoga TV and Shores FM. Promoting music and local businesses.">
+<meta property="og:image" content="KYOGA TV.jpg">
+<meta property="og:url" content="https://yourwebsite.com">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+<link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+<script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+
 <style>
-:root {
-  --primary-color: #1d1147;
-  --accent-color: #f0ac45;
-  --bg-color: #f2f2f2;
-}
+:root { --primary: #1d1147; --accent: #f0ac45; --bg: #f8fafc; --white: #ffffff; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Poppins', sans-serif; background: var(--bg); color: #1e293b; line-height: 1.6; }
 
-/* Reset */
-* { box-sizing: border-box; margin:0; padding:0; }
+/* Header & Ticker */
+header { background: var(--white); box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
+.header-container { display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; max-width: 1200px; margin: 0 auto; }
+.brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+.brand img { height: 45px; border-radius: 5px; }
+.brand h1 { font-size: 1.4rem; color: var(--primary); font-weight: 700; }
 
-body {
-  font-family: 'Poppins', sans-serif;
-  background-color: var(--bg-color);
-  color: #333;
-  line-height: 1.6;
+#weather-ticker {
+  background: var(--primary); color: white; padding: 10px 0; font-size: 0.85rem;
+  overflow: hidden; white-space: nowrap; border-bottom: 3px solid var(--accent);
 }
+.weather-track { display: inline-flex; animation: scroll-weather 45s linear infinite; gap: 60px; align-items: center; }
+@keyframes scroll-weather { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100%); } }
 
-/* Header */
-header {
-  position: sticky;
-  top: 0;
-  background: #fff;
-  border-bottom: 2px solid #ddd;
-  z-index: 1000;
-}
-
-.header-top {
-  text-align: center;
-  padding: 8px 15px;
-}
-
-.logo-title {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-}
-
-.logo-title img { height: 40px; }
-.logo-title h1 {
-  color: var(--primary-color);
-  font-size: 20px;
-  margin: 0;
-}
-
-.datetime {
-  font-family: 'Roboto Slab', serif;
-  font-size: 14px;
-  color: #555;
-  margin-top: 3px;
-}
+.ticker-label { color: var(--accent); font-weight: 700; text-transform: uppercase; margin-right: 5px; }
+.denied-text { color: #ffb4b4; font-weight: 600; }
 
 /* Navigation */
-nav.nav {
-  background-color: var(--primary-color);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 6px 15px;
-  flex-wrap: wrap;
-}
+nav { background: #2d1b6b; }
+.nav-links { display: flex; list-style: none; justify-content: center; max-width: 1200px; margin: 0 auto; transition: 0.3s; }
+.nav-links li a { color: white; text-decoration: none; padding: 15px 18px; font-size: 0.85rem; font-weight: 600; display: block; }
+.nav-links li a:hover, .nav-links li a.active { color: var(--accent); background: rgba(255,255,255,0.1); }
 
-.nav-links {
-  list-style: none;
-  display: flex;
-  gap: 15px;
-}
+/* Hamburger */
+.menu-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 5px; }
+.menu-toggle span { width: 28px; height: 3px; background: var(--primary); border-radius: 2px; }
 
-.nav-links li a {
-  color: #fff;
-  font-weight: 600;
-  padding: 6px 10px;
-  border-radius: 5px;
-  text-decoration: none;
-  transition: background 0.3s;
-}
+/* Main Content */
+main { max-width: 1200px; margin: 25px auto; padding: 0 15px; }
+.grid { display: grid; grid-template-columns: 360px 1fr; gap: 25px; }
 
-.nav-links li a:hover {
-  background: var(--accent-color);
-  color: var(--primary-color);
-}
+.card { background: var(--white); border-radius: 20px; padding: 30px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+.radio-img { width: 160px; height: 160px; border-radius: 50%; border: 5px solid var(--bg); margin: 20px 0; }
+.playing { animation: spin 12s linear infinite; border-color: var(--accent); }
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.btn-play { background: var(--primary); color: white; border: none; padding: 16px; width: 100%; border-radius: 50px; font-weight: 700; cursor: pointer; font-size: 1rem; }
 
-#menu-toggle {
-  display: none;
-  font-size: 28px;
-  color: #fff;
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
-/* Weather Widget */
-#weather-header {
-  display:flex;
-  justify-content:center;
-  flex-wrap:wrap;
-  padding:10px 0;
-  gap:10px;
-  transition: background 0.5s;
-}
-
-.weather-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: rgba(255,255,255,0.1);
-  border-radius: 10px;
-  padding: 8px 12px;
-  min-width: 70px;
-  color: #fff;
-  font-size: 0.9em;
-  text-align: center;
-}
-
-.weather-icon { font-size: 2em; margin-bottom:3px; }
-.weather-label { font-weight:bold; font-size:0.85em; margin-bottom:2px; }
-.weather-text { font-size:0.9em; text-align:center; }
-
-/* Main */
-main { padding: 40px 20px; max-width: 1000px; margin:auto; }
-
-/* Radio Player */
-.radio-player {
-  background: linear-gradient(135deg, #ffffff, #f0f3f2);
-  padding: 30px 20px;
-  border-radius: 15px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.07);
-  text-align:center;
-  margin-bottom:40px;
-  transition: transform 0.3s ease;
-}
-.radio-player:hover { transform: translateY(-5px); }
-.radio-player h2 { font-size:26px; margin-bottom:20px; color: var(--primary-color); }
-.radio-player img {
-  width:280px;
-  max-width:90%;
-  border-radius:12px;
-  margin-bottom:20px;
-  box-shadow:0 2px 10px rgba(0,0,0,0.1);
-  border:4px solid transparent;
-  background-image: linear-gradient(white, white), linear-gradient(to right, var(--accent-color), var(--primary-color));
-  background-origin: border-box;
-  background-clip: content-box, border-box;
-  loading: lazy;
-}
-
-.custom-player { display:flex; flex-direction:column; align-items:center; gap:15px; }
-.player-controls { display:flex; gap:20px; justify-content:center; align-items:center; }
-.player-controls button {
-  width:60px; height:60px; border-radius:50%; font-size:28px;
-  color: var(--primary-color); background-color: var(--accent-color);
-  border:none; cursor:pointer; transition: transform 0.2s, background 0.3s;
-}
-.player-controls button:hover { transform: scale(1.1); background-color:#d18f35; }
-
-#volume-control { width:150px; cursor:pointer; accent-color:var(--accent-color); border-radius:5px; background-color:#fff; height:8px; }
-
-.equalizer { display:flex; align-items:flex-end; gap:4px; height:60px; margin-top:10px; }
-.bar { width:6px; background: linear-gradient(to top,var(--accent-color),var(--primary-color)); border-radius:3px; height:10%; transition: height 0.1s ease; }
-
-/* News ticker */
-.news-ticker {
-  width:100%; background-color:#8bc2ee; color:white;
-  overflow:hidden; white-space:nowrap; padding:10px 0;
-  box-shadow:0 2px 4px rgba(39,3,245,0.2); margin:30px 0;
-  font-size:16px; font-weight:bold; position:relative;
-}
-.ticker-content { display:inline-block; padding-left:100%; animation: ticker 20s linear infinite; }
-.news-ticker:hover .ticker-content { animation-play-state:paused; }
-@keyframes ticker { 0%{transform:translateX(0%);} 100%{transform:translateX(-100%);} }
-
-/* Video section */
-.video-section {
-  background:#f0f3f2;
-  padding:20px;
-  border-radius:10px;
-  box-shadow:0 2px 10px rgba(0,0,0,0.05);
-  margin-bottom:30px;
-  text-align:center;
-}
-.video-section h2 { margin-bottom:15px; }
-iframe { width:100%; height:450px; border-radius:10px; border:none; aspect-ratio:16/9; }
+.video-box { background: #000; border-radius: 20px; overflow: hidden; box-shadow: 0 15px 40px rgba(0,0,0,0.15); }
+.video-js { width: 100% !important; height: 460px !important; }
 
 /* Footer */
-footer {
-  background-color: var(--primary-color);
-  color:white;
-  padding:20px;
-  text-align:center;
-}
-.social-links a { color:var(--accent-color); margin:0 10px; text-decoration:none; }
-.social-links a:hover { text-decoration:underline; }
+footer { background: var(--primary); color: white; padding: 50px 20px; text-align: center; margin-top: 50px; }
+.social-links { margin-bottom: 30px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+.social-links a { color: var(--white); background: rgba(255,255,255,0.1); padding: 10px 20px; border-radius: 30px; text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: 0.3s; }
+.social-links a:hover { background: var(--accent); color: var(--primary); transform: translateY(-3px); }
+.contact-info a { color: var(--accent); text-decoration: none; font-weight: bold; }
 
-/* Responsive */
-@media(max-width:768px){
-  ul.nav-links { flex-direction:column; width:100%; display:none; margin-top:10px; }
-  ul.nav-links.show { display:flex; }
-  ul.nav-links li { margin:10px 0; }
-  #menu-toggle { display:block; }
-  iframe { height:250px; }
-  .player-controls { flex-direction:row; flex-wrap:wrap; }
-  .logo-title h1 { font-size:18px; }
-  .datetime { font-size:12px; }
-  .weather-item { min-width:60px; padding:6px 8px; margin:4px; }
-  .weather-icon { font-size:1.8em; }
+@media (max-width: 900px) {
+  .menu-toggle { display: flex; }
+  .nav-links { display: none; flex-direction: column; width: 100%; }
+  .nav-links.active { display: flex; }
+  .grid { grid-template-columns: 1fr; }
+  .video-js { height: 280px !important; }
 }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="header-top">
-    <div class="logo-title">
-      <img src="KYOGA TV.jpg" alt="Kyoga TV Logo" />
+  <div class="header-container">
+    <a href="home.html" class="brand">
+      <img src="KYOGA TV.jpg" alt="Kyoga TV Logo">
       <h1>Kyoga TV</h1>
-      <div class="datetime" id="datetime">Loading date & time...</div>
+    </a>
+    <button class="menu-toggle" id="mobile-menu" aria-label="Toggle Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  
+  <div id="weather-ticker">
+    <div class="weather-track" id="weather-track">
+      <span id="loc-section">
+        <span class="ticker-label">📍 Your Surroundings:</span> 
+        <span id="city">Searching...</span>
+      </span>
+
+      <span id="weather-data" style="display: none;">
+        <span><span class="ticker-label">🌡️ Temp:</span> <span id="temp">--°C</span></span>
+        <span><span class="ticker-label">✨ Sky:</span> <span id="cond">--</span></span>
+        <span><span class="ticker-label">💧 Humidity:</span> <span id="hum">--%</span></span>
+        <span><span class="ticker-label">💨 Wind:</span> <span id="wind">-- km/h</span></span>
+      </span>
+
+      <span>📺 <b>Live Now:</b> Kyoga TV & Shores FM - It's Our View: Here we produce commercial adverts, Broadcast on our radio and TV platforms and social media, Web and Mobile App Development and so much more. Feel free to get in touch with us.</span>
     </div>
   </div>
 
-  <!-- Weather Widget -->
-  <div id="weather-header">
-    <div id="weather-message">Detecting your location and weather...</div>
-  </div>
-
-  <nav class="nav" role="navigation">
-    <button id="menu-toggle" aria-label="Toggle Menu">&#9776;</button>
-    <ul class="nav-links" id="nav-links">
+  <nav>
+    <ul class="nav-links" id="nav-list">
       <li><a href="home.html">Home</a></li>
+      <li><a href="live.html" class="active">Live</a></li>
       <li><a href="news.html">News</a></li>
-      <li><a href="about.html">About</a></li>
       <li><a href="our team.html">Our Team</a></li>
-      <li><a href="our contacts.html">Our Contacts</a></li>
-      <li><a href="Program Line Up.html">Program Line Up</a></li>
-      <li><a href="live.html">Live</a></li>
+      <li><a href="Program Line Up.html">Schedule</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="our contacts.html">Contacts</a></li>
     </ul>
   </nav>
 </header>
 
-<main role="main">
-  <div class="radio-player">
-    <h2>Shores FM – Listen Live Online</h2>
-    <img src="Shores FM.png" alt="Shores FM Logo">
-    
-    <div class="custom-player">
-      <div class="player-controls">
-        <button id="play-pause" aria-label="Play" title="Play">▶️</button>
-        <button id="mute-unmute" aria-label="Mute" title="Mute">🔊</button>
-        <input type="range" id="volume-control" min="0" max="1" step="0.01" value="1" aria-label="Volume Control" />
-      </div>
-      <div class="equalizer" id="equalizer"></div>
+<main>
+  <div class="grid">
+    <div class="card">
+      <span style="color: #ef4444; font-weight: 800; font-size: 0.8rem; letter-spacing: 1px;">LIVE ON AIR</span>
+      <h2 style="color: var(--primary);">Shores FM</h2>
+      <img src="Shores FM.png" id="rImg" class="radio-img" alt="Shores FM">
+      <button id="rPlay" class="btn-play">▶ START RADIO</button>
+      <input type="range" id="vol" min="0" max="1" step="0.1" value="0.8" style="width: 100%; margin-top: 20px; accent-color: var(--accent);">
+      <audio id="audio" src="https://stream.zeno.fm/4mb1wxhrefhvv"></audio>
     </div>
 
-    <audio id="radio-audio" crossorigin="anonymous" preload="auto">
-      <source src="https://stream.zeno.fm/4mb1wxhrefhvv" type="audio/mpeg" />
-      Your browser does not support the audio element.
-    </audio>
-  </div>
-
-  <div class="news-ticker">
-    <div class="ticker-content">
-      🎙️ We Are Here To Promote Music and Businesses | 📺 To Advertise here call us on 0789223294 | 🎥 Please share this website to friends and family | 🔴 Tune in Live on YouTube, Facebook & TikTok!
+    <div class="video-box">
+      <video-js id="vid-stream" class="video-js vjs-big-play-centered" controls preload="auto">
+        <source src="https://live21.bozztv.com/akamaissh101/ssh101/livetv1995/playlist.m3u8" type="application/x-mpegURL">
+      </video-js>
     </div>
-  </div>
-
-  <div class="video-section">
-    <h2>Our previous shows available on YouTube</h2>
-    <iframe src="https://www.youtube.com/embed/2QrzgMBYIgI?si=6R-M3gHifN1rFEth" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>
   </div>
 </main>
 
 <footer>
   <div class="social-links">
-    <a href="https://facebook.com/kyogatv" target="_blank">Facebook</a> |
-    <a href="https://x.com/kyogatv" target="_blank">X (Twitter)</a> |
-    <a href="https://tiktok.com/@kyogatv" target="_blank">TikTok</a> |
-    <a href="https://youtube.com/@kyogatv" target="_blank">YouTube</a>
+    <a href="https://www.facebook.com/profile.php?id=100076183202867" target="_blank">Facebook</a>
+    <a href="https://youtube.com/@KyogaTV" target="_blank">YouTube</a>
+    <a href="https://www.tiktok.com/@kyogatv?_r=1&_t=ZM-92z5mKfpatn target="_blank">TikTok</a>
+    <a href="https://x.com/KyogaTV" target="_blank">X (Twitter)</a>
   </div>
-  <p><a href="mailto:olicafelix95@gmail.com" style="color:white;">Send Email</a> | <a href="https://wa.me/256789223294" style="color:white;" target="_blank">WhatsApp: +256789223294</a></p>
-  <p>&copy; 2025 Kyoga TV. All rights reserved.</p>
+  
+  <div class="contact-info">
+    <p>📧 <strong>Email:</strong> <a href="mailto:olicafelix95@gmail.com">olicafelix95@gmail.com</a></p>
+    <p>📞 <strong>WhatsApp/Hotline:</strong> <a href="tel:+256789223294">+256 789 223 294</a></p>
+  </div>
+  <p style="margin-top: 30px; font-size: 0.75rem; opacity: 0.6;">&copy; 2026 Kyoga TV & Shores FM. All Rights Reserved.</p>
 </footer>
 
 <script>
-  // Date & Time
-  function updateDateTime() {
-    const now = new Date();
-    const options = { weekday:'long', year:'numeric', month:'long', day:'numeric',
-      hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:true };
-    document.getElementById('datetime').textContent = now.toLocaleString('en-US', options);
-  }
-  updateDateTime();
-  setInterval(updateDateTime, 1000);
+  // 1. Navigation Toggle
+  document.getElementById('mobile-menu').onclick = () => {
+    document.getElementById('nav-list').classList.toggle('active');
+  };
 
-  // Mobile menu toggle
-  const toggleBtn = document.getElementById('menu-toggle');
-  const navLinks = document.getElementById('nav-links');
-  toggleBtn.addEventListener('click', () => {
-    navLinks.classList.toggle('show');
-    toggleBtn.setAttribute('aria-expanded', navLinks.classList.contains('show'));
-  });
+  // 2. Radio Controls
+  const audio = document.getElementById('audio');
+  const rBtn = document.getElementById('rPlay');
+  const rImg = document.getElementById('rImg');
+  rBtn.onclick = () => {
+    if(audio.paused) {
+      audio.play();
+      rBtn.innerText = "⏸ STOP RADIO";
+      rImg.classList.add('playing');
+    } else {
+      audio.pause();
+      rBtn.innerText = "▶ START RADIO";
+      rImg.classList.remove('playing');
+    }
+  };
+  document.getElementById('vol').oninput = (e) => audio.volume = e.target.value;
 
-  // Audio Player
-  const audio = document.getElementById('radio-audio');
-  const playPauseBtn = document.getElementById('play-pause');
-  const muteBtn = document.getElementById('mute-unmute');
-  const volumeControl = document.getElementById('volume-control');
-  const equalizer = document.getElementById('equalizer');
-  let bars = [];
-  let visualizerId;
+  // 3. Video Initialization
+  videojs('vid-stream');
 
-  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-  const analyser = audioContext.createAnalyser();
-  analyser.fftSize = 64;
-  const source = audioContext.createMediaElementSource(audio);
-  source.connect(analyser);
-  analyser.connect(audioContext.destination);
-  const dataArray = new Uint8Array(analyser.frequencyBinCount);
+  // 4. Exact Weather Logic
+  const weatherMap = {
+    0: "☀️ Clear Skies", 1: "🌤️ Mainly Clear", 2: "⛅ Partly Cloudy", 3: "☁️ Overcast",
+    45: "🌫️ Foggy", 51: "🌦️ Drizzle", 61: "🌧️ Rainy", 80: "🌦️ Showers", 95: "⛈️ Thunderstorm"
+  };
 
-  equalizer.innerHTML = '';
-  for(let i=0;i<analyser.frequencyBinCount;i++){
-    const bar=document.createElement('div');
-    bar.className='bar';
-    equalizer.appendChild(bar);
-    bars.push(bar);
-  }
+  async function getSurroundingWeather(lat, lon) {
+    try {
+      // Get town name
+      const geo = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`);
+      const gData = await geo.json();
+      document.getElementById('city').innerText = gData.address.city || gData.address.town || gData.address.village || "Your Location";
 
-  function animateVisualizer(){
-    analyser.getByteFrequencyData(dataArray);
-    bars.forEach((bar,i)=>{ bar.style.height=`${(dataArray[i]/255)*100}%`; });
-    if(!audio.paused) visualizerId=requestAnimationFrame(animateVisualizer);
-  }
-
-  playPauseBtn.addEventListener('click',()=>{ audio.paused?audio.play():audio.pause(); });
-  audio.addEventListener('play',()=>{
-    playPauseBtn.textContent='⏸️'; playPauseBtn.setAttribute('aria-label','Pause');
-    if(audioContext.state==='suspended') audioContext.resume();
-    animateVisualizer();
-  });
-  audio.addEventListener('pause',()=>{
-    playPauseBtn.textContent='▶️'; playPauseBtn.setAttribute('aria-label','Play');
-    bars.forEach(bar=>bar.style.height='10%');
-    cancelAnimationFrame(visualizerId);
-  });
-  muteBtn.addEventListener('click',()=>{
-    audio.muted=!audio.muted;
-    muteBtn.textContent=audio.muted?'🔇':'🔊';
-    muteBtn.setAttribute('aria-label',audio.muted?'Unmute':'Mute');
-  });
-  volumeControl.addEventListener('input',e=>{
-    audio.volume=e.target.value;
-    audio.muted=e.target.value==0;
-    muteBtn.textContent=audio.muted?'🔇':'🔊';
-  });
-
-  // Weather Widget
-  async function displayWeather() {
-    const header=document.getElementById('weather-header');
-    const message=document.getElementById('weather-message');
-
-    if(!navigator.geolocation){ message.textContent="Geolocation not supported."; return; }
-
-    navigator.geolocation.getCurrentPosition(async (pos)=>{
-      const lat=pos.coords.latitude;
-      const lon=pos.coords.longitude;
-
-      try{
-        const geoRes=await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`);
-        const geoData=await geoRes.json();
-        const city=geoData.address.city||geoData.address.town||geoData.address.village||geoData.address.county||"Unknown";
-
-        const weatherRes=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&daily=sunrise,sunset&timezone=auto&hourly=relativehumidity_2m,pressure_msl,weathercode`);
-        const weatherData=await weatherRes.json();
-        const current=weatherData.current_weather;
-        const sunrise=new Date(weatherData.daily.sunrise[0]);
-        const sunset=new Date(weatherData.daily.sunset[0]);
-        const now=new Date(current.time);
-        const isDay=now>=sunrise && now<=sunset;
-
-        header.style.background=isDay?'linear-gradient(90deg,#4a90e2,#50c9c3)':'linear-gradient(90deg,#2c3e50,#34495e)';
-
-        const weatherMap={
-          0:{desc:"Clear",icon:"☀️"},
-          1:{desc:"Mainly Clear",icon:"🌤️"},
-          2:{desc:"Partly Cloudy",icon:"⛅"},
-          3:{desc:"Overcast",icon:"☁️"},
-          45:{desc:"Fog",icon:"🌫️"},
-          48:{desc:"Rime Fog",icon:"🌫️"},
-          51:{desc:"Light Drizzle",icon:"🌦️"},
-          53:{desc:"Moderate Drizzle",icon:"🌦️"},
-          55:{desc:"Dense Drizzle",icon:"🌧️"},
-          61:{desc:"Slight Rain",icon:"🌧️"},
-          63:{desc:"Moderate Rain",icon:"🌧️"},
-          65:{desc:"Heavy Rain",icon:"🌧️"},
-          71:{desc:"Slight Snow",icon:"🌨️"},
-          73:{desc:"Moderate Snow",icon:"🌨️"},
-          75:{desc:"Heavy Snow",icon:"❄️"},
-          80:{desc:"Slight Rain Showers",icon:"🌦️"},
-          81:{desc:"Moderate Rain Showers",icon:"🌧️"},
-          82:{desc:"Violent Rain Showers",icon:"⛈️"},
-          95:{desc:"Thunderstorm",icon:"⛈️"}
-        };
-        const w=weatherMap[current.weathercode]||{desc:"Unknown",icon:"❓"};
-
-        header.innerHTML=`
-          <div class="weather-item">
-            <div class="weather-icon">📍</div>
-            <div class="weather-label">Location</div>
-            <div class="weather-text">${city}</div>
-          </div>
-          <div class="weather-item">
-            <div class="weather-icon">${w.icon}</div>
-            <div class="weather-label">Condition</div>
-            <div class="weather-text">${w.desc}</div>
-          </div>
-          <div class="weather-item">
-            <div class="weather-icon">🌡️</div>
-            <div class="weather-label">Temp</div>
-            <div class="weather-text">${current.temperature}°C</div>
-          </div>
-          <div class="weather-item">
-            <div class="weather-icon">💨</div>
-            <div class="weather-label">Wind</div>
-            <div class="weather-text">${current.windspeed} km/h</div>
-          </div>
-          <div class="weather-item">
-            <div class="weather-icon">💧</div>
-            <div class="weather-label">Humidity</div>
-            <div class="weather-text">${weatherData.hourly.relativehumidity_2m[0]}%</div>
-          </div>
-          <div class="weather-item">
-            <div class="weather-icon">⚖️</div>
-            <div class="weather-label">Pressure</div>
-            <div class="weather-text">${weatherData.hourly.pressure_msl[0]} hPa</div>
-          </div>
-          <div class="weather-item">
-            <div class="weather-icon">${isDay?'🌞':'🌜'}</div>
-            <div class="weather-label">Sun</div>
-            <div class="weather-text">${isDay?'Daytime':'Nighttime'}</div>
-          </div>
-        `;
-      }catch(err){ message.textContent="Failed to load weather."; console.error(err); }
-    }, (err)=>{ message.textContent=`Error: ${err.message}`; });
+      // Get weather
+      const w = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&hourly=relative_humidity_2m`);
+      const wData = await w.json();
+      
+      document.getElementById('temp').innerText = Math.round(wData.current_weather.temperature) + "°C";
+      document.getElementById('cond').innerText = weatherMap[wData.current_weather.weathercode] || "Clear";
+      document.getElementById('wind').innerText = wData.current_weather.windspeed + " km/h";
+      document.getElementById('hum').innerText = wData.hourly.relative_humidity_2m[0] + "%";
+      
+      document.getElementById('weather-data').style.display = 'inline-flex';
+      document.getElementById('weather-data').style.gap = '60px';
+    } catch (e) {
+      document.getElementById('city').innerText = "Update Error";
+    }
   }
 
-  window.onload = displayWeather;
+  function initWeather() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (p) => getSurroundingWeather(p.coords.latitude, p.coords.longitude),
+        () => {
+          document.getElementById('city').innerHTML = '<span class="denied-text">You denied user location for weather updates.</span>';
+          document.getElementById('weather-data').style.display = 'none';
+        }
+      );
+    } else {
+      document.getElementById('city').innerText = "Location not supported.";
+    }
+  }
+
+  initWeather();
 </script>
 
 </body>
