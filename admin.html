@@ -3,14 +3,22 @@
 <head>
 <title>Kyoga TV Admin</title>
 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
 
 <style>
-body { font-family:Arial; padding:20px; max-width:500px; margin:auto; }
-input, textarea, button { width:100%; margin:10px 0; padding:10px; }
+body {
+  font-family: Arial;
+  background:#f2f2f2;
+  max-width:500px;
+  margin:auto;
+  padding:20px;
+}
 
 h1 {
   text-align:center;
@@ -21,6 +29,27 @@ h1 {
   from { color:#1d1147; }
   to { color:#f0ac45; }
 }
+
+input, textarea, button {
+  width:100%;
+  padding:10px;
+  margin:8px 0;
+  border-radius:6px;
+  border:1px solid #ccc;
+}
+
+button {
+  background:#1d1147;
+  color:white;
+  border:none;
+}
+
+button:hover {
+  background:#f0ac45;
+  color:#1d1147;
+}
+
+#adminDiv { display:none; }
 </style>
 </head>
 
@@ -32,11 +61,11 @@ h1 {
 <div id="loginDiv">
   <input id="email" placeholder="Email">
   <input id="password" type="password" placeholder="Password">
-  <button onclick="login()">Login</button>
+  <button id="loginBtn">Login</button>
 </div>
 
-<!-- DASHBOARD -->
-<div id="adminDiv" style="display:none;">
+<!-- ADMIN -->
+<div id="adminDiv">
 
 <h3>Post News</h3>
 
@@ -44,23 +73,21 @@ h1 {
 <input id="author" placeholder="Author">
 <input id="location" placeholder="Location">
 <input id="category" placeholder="Category">
-
 <input type="file" id="imageFile">
-
 <textarea id="description" placeholder="Description"></textarea>
 
-<button onclick="postNews()">Publish News</button>
-<button onclick="logout()">Logout</button>
+<button id="publishBtn">Publish News</button>
+<button id="logoutBtn">Logout</button>
 
 </div>
 
 <script>
-// 🔥 YOUR CONFIG
+// 🔥 Firebase Config
 const firebaseConfig = {
   apiKey: "AIzaSyBGgDRu812I2saYcq3W0LuLyH8WpxDyHv8",
   authDomain: "kyogatvnews.firebaseapp.com",
   projectId: "kyogatvnews",
-  storageBucket: "kyogatvnews.firebasestorage.app",
+  storageBucket: "kyogatvnews.appspot.com",
   messagingSenderId: "721054655198",
   appId: "1:721054655198:web:abf9aebc667366aefe184f"
 };
@@ -71,52 +98,90 @@ const db = firebase.firestore();
 const auth = firebase.auth();
 const storage = firebase.storage();
 
-// 🔐 LOGIN
-function login(){
-  auth.signInWithEmailAndPassword(email.value, password.value)
-  .catch(err=>alert(err.message));
-}
+// WAIT FOR PAGE LOAD
+window.onload = function(){
 
-// 🔓 LOGOUT
-function logout(){
-  auth.signOut();
-}
+  // LOGIN
+  document.getElementById("loginBtn").onclick = function(){
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
 
-// 🔄 AUTH STATE
+    auth.signInWithEmailAndPassword(email, password)
+    .then(()=> alert("✅ Logged in"))
+    .catch(err=> alert(err.message));
+  };
+
+  // LOGOUT
+  document.getElementById("logoutBtn").onclick = function(){
+    auth.signOut();
+  };
+
+  // PUBLISH
+  document.getElementById("publishBtn").onclick = async function(){
+
+    console.log("🔥 Publish clicked");
+
+    const title = document.getElementById("title").value;
+    const author = document.getElementById("author").value;
+    const location = document.getElementById("location").value;
+    const category = document.getElementById("category").value;
+    const description = document.getElementById("description").value;
+    const file = document.getElementById("imageFile").files[0];
+
+    if(!file){
+      alert("Select image");
+      return;
+    }
+
+    try{
+      console.log("Uploading image...");
+
+      const storageRef = storage.ref("newsImages/" + Date.now() + "_" + file.name);
+      await storageRef.put(file);
+
+      const imageURL = await storageRef.getDownloadURL();
+
+      console.log("Saving to Firestore...");
+
+      await db.collection("news").add({
+        title,
+        author,
+        location,
+        category,
+        description,
+        image: imageURL,
+        date: new Date(),
+        views: 0
+      });
+
+      alert("✅ News Published!");
+
+      // CLEAR FORM
+      document.getElementById("title").value="";
+      document.getElementById("author").value="";
+      document.getElementById("location").value="";
+      document.getElementById("category").value="";
+      document.getElementById("description").value="";
+      document.getElementById("imageFile").value="";
+
+    } catch(err){
+      console.error(err);
+      alert("❌ " + err.message);
+    }
+
+  };
+};
+
+// AUTH STATE
 auth.onAuthStateChanged(user=>{
   if(user){
-    loginDiv.style.display="none";
-    adminDiv.style.display="block";
+    document.getElementById("loginDiv").style.display="none";
+    document.getElementById("adminDiv").style.display="block";
   } else {
-    loginDiv.style.display="block";
-    adminDiv.style.display="none";
+    document.getElementById("loginDiv").style.display="block";
+    document.getElementById("adminDiv").style.display="none";
   }
 });
-
-// 📰 POST NEWS WITH IMAGE UPLOAD
-async function postNews(){
-  const file = document.getElementById("imageFile").files[0];
-
-  if(!file) return alert("Select image");
-
-  const storageRef = storage.ref("newsImages/" + file.name);
-  await storageRef.put(file);
-
-  const imageURL = await storageRef.getDownloadURL();
-
-  await db.collection("news").add({
-    title: title.value,
-    author: author.value,
-    location: location.value,
-    category: category.value,
-    description: description.value,
-    image: imageURL,
-    date: new Date(),
-    views: 0
-  });
-
-  alert("✅ News Published!");
-}
 </script>
 
 </body>
