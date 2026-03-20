@@ -33,11 +33,31 @@ body {
 header {
   background: linear-gradient(90deg,#1d1147,#3a2c85);
   color: white;
-  padding: 18px;
-  text-align: center;
+  padding: 18px 20px;
   font-family: 'Playfair Display', serif;
   font-size: 1.8rem;
   letter-spacing: 1px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* NAV BUTTONS */
+.nav-buttons a {
+  text-decoration: none;
+  background: white;
+  color: #1d1147;
+  padding: 6px 12px;
+  margin-left: 8px;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.nav-buttons a:hover {
+  background: #ddd;
 }
 
 /* GRID */
@@ -162,7 +182,14 @@ header {
 
 <body>
 
-<header>Kyoga TV News</header>
+<header>
+  <div>Kyoga TV News</div>
+
+  <div class="nav-buttons">
+    <a href="home.html">Home</a>
+    <a href="admin.html">Admin</a>
+  </div>
+</header>
 
 <div id="news-grid" class="news-grid"></div>
 
@@ -252,7 +279,6 @@ async function openArticle(item){
 
   document.getElementById("article-body").innerHTML = item.description;
 
-  // increase views
   await db.collection("news").doc(item.id).update({
     views: firebase.firestore.FieldValue.increment(1)
   });
