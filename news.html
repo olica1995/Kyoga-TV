@@ -77,6 +77,12 @@ header {
 
 .article-content { padding:20px; }
 
+.article-content p {
+  line-height: 1.6;
+  margin-bottom: 12px;
+  text-align: justify;
+}
+
 .share-buttons button {
   margin:5px 5px 0 0;
   padding:8px;
@@ -111,7 +117,6 @@ header {
     <div id="article-meta"></div>
     <div id="article-body"></div>
 
-    <!-- Social Share Buttons -->
     <div class="share-buttons">
       <button onclick="shareWhatsApp()">WhatsApp</button>
       <button onclick="shareFacebook()">Facebook</button>
@@ -144,6 +149,27 @@ const articleBody = document.getElementById("article-body");
 
 let newsData = [];
 let currentArticle = null;
+
+/* FORMAT PARAGRAPHS */
+function formatParagraphs(text){
+  if(!text) return "";
+
+  text = text.trim();
+
+  let paragraphs = text.split(/\n\s*\n|\r\n\s*\r\n/);
+
+  paragraphs = paragraphs.map(p => {
+    return p
+      .replace(/\s+/g, " ")
+      .trim()
+      .replace(/([.?!])\s*(?=[A-Z])/g, "$1 ");
+  });
+
+  return paragraphs
+    .filter(p => p.length > 0)
+    .map(p => `<p>${p}</p>`)
+    .join("");
+}
 
 /* SLUG */
 function slugify(title){
@@ -221,7 +247,8 @@ function openArticle(item){
   articleImage.src=item.image;
   articleTitle.innerText=item.title;
   articleMeta.innerText=`${item.author||""} • ${item.location||""}`;
-  articleBody.innerHTML=item.description;
+  
+  articleBody.innerHTML = formatParagraphs(item.description);
 
   const slug = slugify(item.title);
   const url = `/news.html/${slug}-${item.id}`;
