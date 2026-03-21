@@ -76,6 +76,14 @@ header {
 }
 
 .article-content { padding:20px; }
+
+.share-buttons button {
+  margin:5px 5px 0 0;
+  padding:8px;
+  border:none;
+  border-radius:5px;
+  cursor:pointer;
+}
 </style>
 </head>
 
@@ -103,10 +111,12 @@ header {
     <div id="article-meta"></div>
     <div id="article-body"></div>
 
-    <a id="full-link" target="_blank">Read Full Story</a>
-
-    <div>
+    <!-- Social Share Buttons -->
+    <div class="share-buttons">
       <button onclick="shareWhatsApp()">WhatsApp</button>
+      <button onclick="shareFacebook()">Facebook</button>
+      <button onclick="shareTwitter()">Twitter</button>
+      <button onclick="shareTelegram()">Telegram</button>
       <button onclick="copyLink()">Copy Link</button>
     </div>
   </div>
@@ -122,7 +132,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-/* ✅ DEFINE ELEMENTS PROPERLY */
+/* ELEMENTS */
 const breaking = document.getElementById("breaking");
 const filters = document.getElementById("filters");
 const newsGrid = document.getElementById("news-grid");
@@ -131,7 +141,6 @@ const articleImage = document.getElementById("article-image");
 const articleTitle = document.getElementById("article-title");
 const articleMeta = document.getElementById("article-meta");
 const articleBody = document.getElementById("article-body");
-const fullLink = document.getElementById("full-link");
 
 let newsData = [];
 let currentArticle = null;
@@ -203,7 +212,7 @@ function displayNews(list){
 }
 
 /* OPEN ARTICLE */
-async function openArticle(item){
+function openArticle(item){
   currentArticle=item;
 
   newsGrid.style.display="none";
@@ -211,27 +220,12 @@ async function openArticle(item){
 
   articleImage.src=item.image;
   articleTitle.innerText=item.title;
-  articleMeta.innerText=`${item.author||""} • ${item.location||""} • 👁️ ${item.views||0}`;
+  articleMeta.innerText=`${item.author||""} • ${item.location||""}`;
   articleBody.innerHTML=item.description;
-
-  if(item.link){
-    fullLink.href=item.link;
-    fullLink.style.display="block";
-  } else {
-    fullLink.style.display="none";
-  }
 
   const slug = slugify(item.title);
   const url = `/news.html/${slug}-${item.id}`;
   history.pushState({}, "", url);
-
-  const key="view_"+item.id;
-  if(!localStorage.getItem(key)){
-    await db.collection("news").doc(item.id).update({
-      views: firebase.firestore.FieldValue.increment(1)
-    });
-    localStorage.setItem(key,true);
-  }
 }
 
 /* LOAD FROM URL */
@@ -256,13 +250,33 @@ function goBack(){
   history.pushState({}, "", "/news.html");
 }
 
-/* SHARE */
+/* SHARE LINKS */
+function getShareURL(){
+  return encodeURIComponent(window.location.href);
+}
+
+function getShareText(){
+  return encodeURIComponent(currentArticle ? currentArticle.title : "");
+}
+
 function shareWhatsApp(){
-  window.open(`https://wa.me/?text=${currentArticle.title} ${location.href}`);
+  window.open(`https://wa.me/?text=${getShareText()}%20${getShareURL()}`);
+}
+
+function shareFacebook(){
+  window.open(`https://www.facebook.com/sharer/sharer.php?u=${getShareURL()}`);
+}
+
+function shareTwitter(){
+  window.open(`https://twitter.com/intent/tweet?text=${getShareText()}&url=${getShareURL()}`);
+}
+
+function shareTelegram(){
+  window.open(`https://t.me/share/url?url=${getShareURL()}&text=${getShareText()}`);
 }
 
 function copyLink(){
-  navigator.clipboard.writeText(location.href);
+  navigator.clipboard.writeText(window.location.href);
   alert("Copied!");
 }
 </script>
