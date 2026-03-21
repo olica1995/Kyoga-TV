@@ -13,7 +13,6 @@
 <style>
 body { font-family: Inter; margin:0; background:#f4f6f8; }
 
-/* FIX: ensure header stays clickable above everything */
 header {
   background:#1d1147;
   color:#fff;
@@ -32,8 +31,6 @@ header {
   padding:6px 12px;
   margin-left:8px;
   border-radius:5px;
-  position:relative;
-  z-index:1001;
 }
 
 #breaking {
@@ -157,18 +154,7 @@ let currentArticle = null;
 
 function formatParagraphs(text){
   if(!text) return "";
-  text = text.trim();
-  let paragraphs = text.split(/\n\s*\n|\r\n\s*\r\n/);
-
-  return paragraphs
-    .map(p => `<p>${p.trim()}</p>`)
-    .join("");
-}
-
-function slugify(title){
-  return title.toLowerCase()
-    .replace(/[^a-z0-9 ]/g,"")
-    .replace(/\s+/g,"-");
+  return text.split(/\n\s*\n/).map(p => `<p>${p.trim()}</p>`).join("");
 }
 
 /* LOAD NEWS */
@@ -183,7 +169,7 @@ db.collection("news").orderBy("date","desc")
   showFilters();
   displayNews(newsData);
 
-  setTimeout(loadFromURL, 300);
+  loadFromURL(); // FIX: run immediately
 });
 
 function showBreaking(){
@@ -226,12 +212,6 @@ function displayNews(list){
   });
 }
 
-/* FIX: create clean shareable URL */
-function buildArticleURL(item){
-  const slug = slugify(item.title);
-  return `${window.location.origin}/news.html/${slug}-${item.id}`;
-}
-
 /* OPEN ARTICLE */
 function openArticle(item){
   currentArticle=item;
@@ -244,18 +224,17 @@ function openArticle(item){
   articleMeta.innerText=`${item.author||""} • ${item.location||""}`;
   articleBody.innerHTML = formatParagraphs(item.description);
 
-  const url = buildArticleURL(item);
-
-  history.pushState({id:item.id}, "", url);
+  // FIX: use query param URL (NO 404 issues)
+  const url = `news.html?id=${item.id}`;
+  history.pushState({}, "", url);
 }
 
 /* LOAD FROM URL */
 function loadFromURL(){
-  const path = window.location.pathname.split("/").pop();
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get("id");
 
-  if(!path || !path.includes("-")) return;
-
-  const id = path.split("-").pop();
+  if(!id) return;
 
   const article = newsData.find(n=>n.id===id);
 
@@ -269,10 +248,10 @@ function goBack(){
   articleView.style.display="none";
   newsGrid.style.display="grid";
 
-  history.pushState({}, "", "/news.html");
+  history.pushState({}, "", "news.html");
 }
 
-/* FIX: share using proper article URL */
+/* SHARE FIX */
 function getShareURL(){
   return encodeURIComponent(window.location.href);
 }
@@ -282,9 +261,7 @@ function getShareText(){
 }
 
 function shareWhatsApp(){
-  const url = getShareURL();
-  const text = getShareText();
-  window.open(`https://wa.me/?text=${text}%20${url}`);
+  window.open(`https://wa.me/?text=${getShareText()}%20${getShareURL()}`);
 }
 
 function shareFacebook(){
@@ -304,7 +281,7 @@ function copyLink(){
   alert("Copied!");
 }
 
-/* FIX: handle browser back/forward buttons */
+/* HANDLE BACK/FORWARD */
 window.addEventListener("popstate", () => {
   location.reload();
 });
