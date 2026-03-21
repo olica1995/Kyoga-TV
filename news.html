@@ -13,12 +13,16 @@
 <style>
 body { font-family: Inter; margin:0; background:#f4f6f8; }
 
+/* FIX: ensure header stays clickable above everything */
 header {
   background:#1d1147;
   color:#fff;
   padding:15px;
   display:flex;
   justify-content:space-between;
+  position:sticky;
+  top:0;
+  z-index:1000;
 }
 
 .nav-buttons a {
@@ -28,6 +32,8 @@ header {
   padding:6px 12px;
   margin-left:8px;
   border-radius:5px;
+  position:relative;
+  z-index:1001;
 }
 
 #breaking {
@@ -137,7 +143,6 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-/* ELEMENTS */
 const breaking = document.getElementById("breaking");
 const filters = document.getElementById("filters");
 const newsGrid = document.getElementById("news-grid");
@@ -150,28 +155,16 @@ const articleBody = document.getElementById("article-body");
 let newsData = [];
 let currentArticle = null;
 
-/* FORMAT PARAGRAPHS */
 function formatParagraphs(text){
   if(!text) return "";
-
   text = text.trim();
-
   let paragraphs = text.split(/\n\s*\n|\r\n\s*\r\n/);
 
-  paragraphs = paragraphs.map(p => {
-    return p
-      .replace(/\s+/g, " ")
-      .trim()
-      .replace(/([.?!])\s*(?=[A-Z])/g, "$1 ");
-  });
-
   return paragraphs
-    .filter(p => p.length > 0)
-    .map(p => `<p>${p}</p>`)
+    .map(p => `<p>${p.trim()}</p>`)
     .join("");
 }
 
-/* SLUG */
 function slugify(title){
   return title.toLowerCase()
     .replace(/[^a-z0-9 ]/g,"")
@@ -193,7 +186,6 @@ db.collection("news").orderBy("date","desc")
   setTimeout(loadFromURL, 300);
 });
 
-/* BREAKING */
 function showBreaking(){
   const item = newsData.find(n=>n.breaking);
 
@@ -204,7 +196,6 @@ function showBreaking(){
   }
 }
 
-/* FILTERS */
 function showFilters(){
   const cats=[...new Set(newsData.map(n=>n.category).filter(Boolean))];
 
@@ -218,7 +209,6 @@ function showFilters(){
   });
 }
 
-/* DISPLAY */
 function displayNews(list){
   newsGrid.innerHTML="";
 
@@ -232,9 +222,14 @@ function displayNews(list){
     `;
 
     div.onclick=()=>openArticle(item);
-
     newsGrid.appendChild(div);
   });
+}
+
+/* FIX: create clean shareable URL */
+function buildArticleURL(item){
+  const slug = slugify(item.title);
+  return `${window.location.origin}/news.html/${slug}-${item.id}`;
 }
 
 /* OPEN ARTICLE */
@@ -247,12 +242,11 @@ function openArticle(item){
   articleImage.src=item.image;
   articleTitle.innerText=item.title;
   articleMeta.innerText=`${item.author||""} • ${item.location||""}`;
-  
   articleBody.innerHTML = formatParagraphs(item.description);
 
-  const slug = slugify(item.title);
-  const url = `/news.html/${slug}-${item.id}`;
-  history.pushState({}, "", url);
+  const url = buildArticleURL(item);
+
+  history.pushState({id:item.id}, "", url);
 }
 
 /* LOAD FROM URL */
@@ -274,10 +268,11 @@ function loadFromURL(){
 function goBack(){
   articleView.style.display="none";
   newsGrid.style.display="grid";
+
   history.pushState({}, "", "/news.html");
 }
 
-/* SHARE LINKS */
+/* FIX: share using proper article URL */
 function getShareURL(){
   return encodeURIComponent(window.location.href);
 }
@@ -287,7 +282,9 @@ function getShareText(){
 }
 
 function shareWhatsApp(){
-  window.open(`https://wa.me/?text=${getShareText()}%20${getShareURL()}`);
+  const url = getShareURL();
+  const text = getShareText();
+  window.open(`https://wa.me/?text=${text}%20${url}`);
 }
 
 function shareFacebook(){
@@ -306,6 +303,11 @@ function copyLink(){
   navigator.clipboard.writeText(window.location.href);
   alert("Copied!");
 }
+
+/* FIX: handle browser back/forward buttons */
+window.addEventListener("popstate", () => {
+  location.reload();
+});
 </script>
 
 </body>
