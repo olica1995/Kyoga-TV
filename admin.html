@@ -72,9 +72,6 @@ img.preview {
     <input id="location" placeholder="Location">
     <input id="category" placeholder="Category">
 
-    <!-- NEW: LINK FIELD -->
-    <input id="link" placeholder="Full Story Link (https://...)">
-
     <!-- Image URL -->
     <input id="imageURL" placeholder="Image URL (https://...)">
 
@@ -156,7 +153,6 @@ function clearForm() {
   category.value = "";
   description.value = "";
   imageURL.value = "";
-  link.value = "";
   imagePreview.style.display = "none";
 }
 
@@ -187,7 +183,6 @@ publishBtn.onclick = async () => {
       category: category.value,
       description: description.value,
       image: imageURL.value,
-      link: link.value || "", // NEW
       createdBy: user.email,
       updatedAt: new Date()
     };
@@ -254,7 +249,6 @@ window.editArticle = async (id) => {
   category.value = data.category || "";
   description.value = data.description || "";
   imageURL.value = data.image || "";
-  link.value = data.link || "";
 
   if(data.image){
     imagePreview.src = data.image;
