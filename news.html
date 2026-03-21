@@ -82,7 +82,7 @@ header {
   transform: translateY(-5px);
 }
 
-/* IMAGE FIXED */
+/* IMAGE */
 .news-card img {
   width: 100%;
   height: auto;
@@ -198,13 +198,27 @@ header {
   <div class="back-btn" onclick="goBack()">← Back to news</div>
 
   <div class="hero">
-    <img id="article-image" loading="lazy">
+    <img id="article-image" loading="lazy"
+    onerror="this.src='https://via.placeholder.com/800x400?text=No+Image'">
   </div>
 
   <div class="article-content">
     <h1 id="article-title"></h1>
     <div class="meta" id="article-meta"></div>
     <div class="article-body" id="article-body"></div>
+
+    <!-- FULL STORY BUTTON -->
+    <a id="full-link" target="_blank" style="
+    display:none;
+    margin-top:20px;
+    padding:12px 18px;
+    background:#1d1147;
+    color:white;
+    text-decoration:none;
+    border-radius:6px;
+    font-weight:600;">
+    Read Full Story
+    </a>
 
     <div class="share">
       <button onclick="shareWhatsApp()">WhatsApp</button>
@@ -255,11 +269,22 @@ function displayNews(){
     card.className = "news-card";
 
     card.innerHTML = `
-      <img src="${item.image}" loading="lazy">
-      <h3>${item.title}</h3>
+      <img src="${item.image}" loading="lazy"
+      onerror="this.src='https://via.placeholder.com/400x200?text=No+Image'">
+      
+      <div style="padding:12px">
+        <h3>${item.title}</h3>
+        <small style="color:gray">${item.location || ""}</small>
+      </div>
     `;
 
-    card.onclick = ()=> openArticle(item);
+    card.onclick = () => {
+      if(item.link){
+        window.open(item.link, "_blank");
+      } else {
+        openArticle(item);
+      }
+    };
 
     grid.appendChild(card);
   });
@@ -278,6 +303,16 @@ async function openArticle(item){
     `${item.author} • ${item.location} • 👁️ ${item.views || 0}`;
 
   document.getElementById("article-body").innerHTML = item.description;
+
+  const fullLink = document.getElementById("full-link");
+  if(item.link){
+    fullLink.href = item.link;
+    fullLink.style.display = "inline-block";
+  } else {
+    fullLink.style.display = "none";
+  }
+
+  window.history.pushState({}, "", `?id=${item.id}`);
 
   await db.collection("news").doc(item.id).update({
     views: firebase.firestore.FieldValue.increment(1)
@@ -307,7 +342,23 @@ function loadRelated(id){
 function goBack(){
   document.getElementById("article-view").style.display = "none";
   document.getElementById("news-grid").style.display = "grid";
+  window.history.pushState({}, "", " ");
 }
+
+/* LOAD FROM URL */
+function loadFromURL(){
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get("id");
+
+  if(id){
+    const article = newsData.find(n => n.id === id);
+    if(article){
+      openArticle(article);
+    }
+  }
+}
+
+setTimeout(loadFromURL, 1000);
 
 /* SHARE */
 function shareWhatsApp(){
