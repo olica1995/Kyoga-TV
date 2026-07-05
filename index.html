@@ -9,7 +9,7 @@
 <meta property="og:title" content="Kyoga TV & Shores FM - Live Stream">
 <meta property="og:description" content="Official streaming portal for Kyoga TV and Shores FM. Promoting music and local businesses.">
 <meta property="og:image" content="KYOGA TV.jpg">
-
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
 
 <style>
@@ -135,13 +135,16 @@ main{
   background:#000;
   border-radius:20px;
   overflow:hidden;
-  height:460px;
+  width:100%;
+  aspect-ratio:16/9;
 }
 
-.video-box iframe{
+.video-box video{
   width:100%;
   height:100%;
-  border:0;
+  display:block;
+  object-fit:contain;
+  background:#000;
 }
 
 /* FOOTER */
@@ -155,8 +158,9 @@ footer{
 
 /* MOBILE */
 @media(max-width:900px){
-  .grid{grid-template-columns:1fr;}
-  .video-box{height:280px;}
+  .grid{
+    grid-template-columns:1fr;
+  }
 }
 </style>
 </head>
@@ -202,14 +206,14 @@ footer{
 
     <!-- LIVE VIDEO -->
     <div class="video-box">
-      <iframe
-        src="https://ssh101.com/securelive/index.php?id=kyogatv2006"
-        allowfullscreen
-        webkitallowfullscreen
-        mozallowfullscreen>
-      </iframe>
-    </div>
-
+    <video
+        id="liveVideo"
+        controls
+        autoplay
+        playsinline
+        muted>
+    </video>
+</div>
   </div>
 </main>
 
