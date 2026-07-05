@@ -3,110 +3,97 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lite Live TV</title>
+<title>Rural Lite TV</title>
 
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
 body{
-    background:#111;
-    color:#fff;
-    font-family:Arial,Helvetica,sans-serif;
+    margin:0;
+    background:#000;
     display:flex;
     justify-content:center;
     align-items:center;
-    min-height:100vh;
-}
-
-.container{
-    width:95%;
-    max-width:900px;
+    height:100vh;
+    font-family:sans-serif;
 }
 
 .player{
     width:100%;
-    aspect-ratio:16/9;
-    background:#000;
-    border-radius:10px;
-    overflow:hidden;
+    max-width:700px;
 }
 
 video{
     width:100%;
-    height:100%;
-    object-fit:contain;
-    background:#000;
+    height:auto;
+    background:black;
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
-    <div class="player">
-        <video id="video"
-               controls
-               autoplay
-               playsinline
-               preload="metadata"></video>
-    </div>
+<div class="player">
+    <video id="video"
+           controls
+           autoplay
+           playsinline
+           preload="none"
+           poster="">
+    </video>
 </div>
 
 <script>
 const video = document.getElementById('video');
-const videoSrc = 'https://lbgo.bozztv.com/ssh101/ssh101/kyogatv2006/playlist.m3u8';
+const stream = 'https://lbgo.bozztv.com/ssh101/ssh101/kyogatv2006/playlist.m3u8';
 
 if (Hls.isSupported()) {
 
     const hls = new Hls({
-        // 🔥 LITE MODE SETTINGS
+
+        // ===== RURAL / LOW DATA SETTINGS =====
         enableWorker: true,
-        lowLatencyMode: true,
 
-        // start with lowest quality possible
+        // Start instantly with lowest quality
         startLevel: 0,
+        autoStartLoad: true,
 
-        // avoid switching too aggressively on weak networks
+        // LOCK BANDWIDTH (IMPORTANT for weak networks)
         capLevelToPlayerSize: true,
+        maxLoadingDelay: 4,
+        maxBufferLength: 6,        // very small buffer
+        backBufferLength: 2,
 
-        // BUFFER OPTIMIZATION (key for weak devices)
-        maxBufferLength: 10,        // seconds
-        maxMaxBufferLength: 20,
-        backBufferLength: 5,
+        // NETWORK FRIENDLY RETRIES
+        fragLoadingRetryDelay: 2000,
+        manifestLoadingRetryDelay: 3000,
+        fragLoadingMaxRetry: 10,
+        manifestLoadingMaxRetry: 6,
 
-        // reduce network stress
-        manifestLoadingTimeOut: 10000,
-        fragLoadingTimeOut: 20000,
-
-        // smoother on unstable networks
-        fragLoadingMaxRetry: 6,
-        manifestLoadingMaxRetry: 4
+        // REDUCE STALLING ON SLOW NETWORKS
+        nudgeOffset: 0.2,
+        nudgeMaxRetry: 5
     });
 
-    hls.loadSource(videoSrc);
+    hls.loadSource(stream);
     hls.attachMedia(video);
 
     hls.on(Hls.Events.MANIFEST_PARSED, () => {
-        video.play().catch(() => {});
+        // FORCE LOWEST QUALITY ALWAYS
+        hls.currentLevel = 0;
+        video.play().catch(()=>{});
     });
 
-    // FORCE LOWEST QUALITY FIRST
-    hls.on(Hls.Events.LEVEL_SWITCHED, (_, data) => {
-        console.log("Current quality level:", data.level);
+    // If network is bad → keep forcing lowest level
+    hls.on(Hls.Events.LEVEL_SWITCHED, () => {
+        if (hls.currentLevel !== 0) {
+            hls.currentLevel = 0;
+        }
     });
 
 } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-    // Safari fallback (already adaptive but no control)
-    video.src = videoSrc;
-    video.addEventListener('loadedmetadata', () => {
-        video.play().catch(() => {});
-    });
+    video.src = stream;
+    video.play().catch(()=>{});
 }
 </script>
 
