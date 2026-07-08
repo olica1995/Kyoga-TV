@@ -210,10 +210,12 @@
             box-shadow:0 15px 40px rgba(0,0,0,.15);
         }
 
-        .video-js {
-            width:100%!important;
-            height:460px!important;
-        }
+        .video-box iframe {
+    display:block;
+    width:100%;
+    height:460px;
+    border:0;
+}
 
         /* ================= FOOTER ================= */
         footer {
@@ -273,9 +275,12 @@
                 grid-template-columns:1fr;
             }
 
-            .video-js {
-                height:280px!important;
-            }
+            .video-box iframe {
+    display:block;
+    width:100%;
+    height:460px;
+    border:0;
+}
         }
     </style>
 </head>
@@ -352,11 +357,19 @@
         </div>
 
         <!-- VIDEO -->
-        <div class="video-box">
-            <video-js id="vid-stream" class="video-js vjs-big-play-centered" controls preload="auto">
-                <source src="https://usb.bozztv.com/kyogatv2006/index.m3u8" type="application/x-mpegURL">
-            </video-js>
-        </div>
+<div class="video-box">
+    <iframe 
+        src="https://ssh101.com/securelive/index.php?id=kyogatv2026"
+        frameborder="0"
+        scrolling="no"
+        width="100%"
+        height="460"
+        webkitallowfullscreen
+        mozallowfullscreen
+        allowfullscreen>
+    </iframe>
+</div>
+        
 
     </div>
 </main>
@@ -397,8 +410,6 @@ btn.onclick = () => {
 
 document.getElementById('vol').oninput = e =>
     audio.volume = e.target.value;
-
-videojs('vid-stream');
 
 const weatherMap = {
     0:"☀️ Clear",
