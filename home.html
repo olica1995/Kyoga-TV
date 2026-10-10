@@ -10,7 +10,7 @@
     <meta property="og:title" content="Kyoga TV & Shores FM - Live Stream">
     <meta property="og:description" content="Official streaming portal for Kyoga TV and Shores FM. Promoting music and local businesses.">
     <meta property="og:image" content="KYOGA TV.jpg">
-    <meta property="og:url" content="https://yourwebsite.com">
+    <meta property="og:url" content="https://kyogatv.com/">
 
     <!-- Fonts & VideoJS -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet"/>
@@ -136,6 +136,11 @@
             background:rgba(255,255,255,.1);
         }
 
+        /* Make the app link easy to notice while keeping the same nav layout */
+        .nav-links li a.nav-download {
+            color:var(--accent);
+        }
+
         /* ================= MOBILE MENU ================= */
         .menu-toggle {
             display:none;
@@ -211,11 +216,55 @@
         }
 
         .video-box iframe {
-    display:block;
-    width:100%;
-    height:460px;
-    border:0;
-}
+            display:block;
+            width:100%;
+            height:460px;
+            border:0;
+        }
+
+        /* ================= KYOGA TV APP DOWNLOAD ================= */
+        .app-download-card {
+            margin:28px 0 0;
+            padding:30px 22px;
+            border-radius:20px;
+            background:linear-gradient(135deg, #1d1147, #2d1b6b);
+            color:#fff;
+            text-align:center;
+            box-shadow:0 10px 30px rgba(0,0,0,.10);
+        }
+
+        .app-download-card h2 {
+            font-size:clamp(1.35rem, 3vw, 2rem);
+            margin-bottom:8px;
+        }
+
+        .app-download-card p {
+            margin:8px 0;
+        }
+
+        .app-download-button {
+            display:inline-block;
+            margin:14px 0 8px;
+            padding:14px 25px;
+            border-radius:50px;
+            background:var(--accent);
+            color:var(--primary);
+            text-decoration:none;
+            font-weight:700;
+            box-shadow:0 5px 15px rgba(0,0,0,.18);
+            transition:transform .2s ease, background .2s ease;
+        }
+
+        .app-download-button:hover {
+            background:#ffd080;
+            color:var(--primary);
+            transform:translateY(-2px);
+        }
+
+        .app-download-note {
+            font-size:.82rem;
+            opacity:.85;
+        }
 
         /* ================= FOOTER ================= */
         footer {
@@ -276,11 +325,15 @@
             }
 
             .video-box iframe {
-    display:block;
-    width:100%;
-    height:460px;
-    border:0;
-}
+                display:block;
+                width:100%;
+                height:460px;
+                border:0;
+            }
+
+            .app-download-card {
+                padding:25px 17px;
+            }
         }
     </style>
 </head>
@@ -291,11 +344,11 @@
 <header>
     <div class="header-container">
         <a href="home.html" class="brand">
-            <img src="KYOGA TV.jpg">
+            <img src="KYOGA TV.jpg" alt="Kyoga TV logo">
             <h1>Kyoga TV</h1>
         </a>
 
-        <button class="menu-toggle" id="mobile-menu">
+        <button class="menu-toggle" id="mobile-menu" aria-label="Toggle navigation menu" aria-expanded="false">
             <span></span><span></span><span></span>
         </button>
     </div>
@@ -332,6 +385,7 @@
             <li><a href="Program Line Up.html">Schedule</a></li>
             <li><a href="about.html">About Us</a></li>
             <li><a href="our contacts.html">Contacts</a></li>
+            <li><a href="#download-app" class="nav-download">Get App</a></li>
         </ul>
     </nav>
 </header>
@@ -345,33 +399,44 @@
             <span style="color:#ef4444;font-weight:800;font-size:.8rem">LIVE ON AIR</span>
             <h2 style="color:var(--primary)">Shores FM</h2>
 
-            <img src="Shores FM.png" id="rImg" class="radio-img">
+            <img src="Shores FM.png" id="rImg" class="radio-img" alt="Shores FM">
 
-            <button id="rPlay" class="btn-play">▶ START RADIO</button>
+            <button id="rPlay" class="btn-play" type="button">▶ START RADIO</button>
 
             <input type="range" id="vol" min="0" max="1" step="0.1"
-                   value="0.8"
+                   value="0.8" aria-label="Radio volume"
                    style="width:100%;margin-top:20px;accent-color:var(--accent)">
 
             <audio id="audio" src="https://stream.zeno.fm/4mb1wxhrefhvv"></audio>
         </div>
 
         <!-- VIDEO -->
-<div class="video-box">
-    <iframe 
-        src="https://ssh101.com/securelive/index.php?id=kyogatv2026"
-        frameborder="0"
-        scrolling="no"
-        width="100%"
-        height="460"
-        webkitallowfullscreen
-        mozallowfullscreen
-        allowfullscreen>
-    </iframe>
-</div>
-        
-
+        <div class="video-box">
+            <iframe
+                src="https://ssh101.com/securelive/index.php?id=kyogatv2026"
+                title="Kyoga TV live stream"
+                frameborder="0"
+                scrolling="no"
+                width="100%"
+                height="460"
+                webkitallowfullscreen
+                mozallowfullscreen
+                allowfullscreen>
+            </iframe>
+        </div>
     </div>
+
+    <!-- ================= KYOGA TV APP DOWNLOAD ================= -->
+    <section class="app-download-card" id="download-app" aria-labelledby="app-download-title">
+        <h2 id="app-download-title">📱 Get the Kyoga TV App</h2>
+        <p>Watch Kyoga TV and stay connected with us from your Android phone.</p>
+        <a class="app-download-button"
+           href="https://github.com/olica1995/kyoga-tv-android/releases/download/v1.0.0/KyogaTV.apk">
+            ⬇ Download Kyoga TV for Android
+        </a>
+        <p class="app-download-note">Android APK · 31.5 MB · Version 1.0.0</p>
+        <p class="app-download-note">If prompted, allow your browser to download the file. Android may ask you to confirm installation for an app downloaded outside Google Play.</p>
+    </section>
 </main>
 
 <!-- ================= FOOTER ================= -->
@@ -379,7 +444,7 @@
     <div class="social-links">
         <a href="https://www.facebook.com/profile.php?id=100076183202867">Facebook</a>
         <a href="https://youtube.com/@KyogaTV">YouTube</a>
-        <a href="https://www.tiktok.com/@kyogatv?_r=1&_t=ZM-92z5mKfpatn" target="_blank">TikTok</a>
+        <a href="https://www.tiktok.com/@kyogatv?_r=1&_t=ZM-92z5mKfpatn" target="_blank" rel="noopener noreferrer">TikTok</a>
         <a href="https://x.com/KyogaTV">X (Twitter)</a>
     </div>
 
